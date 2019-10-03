@@ -115,7 +115,7 @@ body
 #content-container
 {
 	position:absolute;
-	overflow-y:scroll;
+	overflow-y:hidden;
 	height:80%;
 	width:100%;
 	top:20%;
@@ -125,11 +125,66 @@ body
 #content
 {
 	width:100%;
+	height:100%;
 }
 
 .latest
 {
-	height:30vh;
+	background:#fff;
+	height:auto;
+	min-height:25%;
+	max-height:10vh;
+	width:40%;
+	top:0vh;
+	left:5%;
+	margin-left:5%;
+	box-sizing:border-box;
+	position:relative;
+	border:#eee 1vh solid;
+	border-radius:2vh;
+	overflow:hidden;
+	transition:0.1s;
+}
+
+.chosen {
+    position: relative;
+    left: 55%;
+    top: -80vh;
+}
+
+.expanded-view {
+	position:absolute;
+    min-height: 100%;
+	width:90%;
+	top:0;
+    z-index: 20;
+}
+
+.break
+{
+	display:none;
+}
+
+.latest-logo {
+    position: absolute;
+    width: 9%;
+    left: 6%;
+    margin-top: 10vh;
+    transform: translate(-50%,-50%);
+    background: #eee;
+    border: #EEE 2vh solid;
+    border-right: #EEE 4vh solid;
+    border-top-left-radius: 3vh;
+    border-bottom-left-radius: 3vh;
+    box-sizing: border-box;
+}
+
+.chosen-logo
+{
+    position: relative;
+    top: -62vh;
+    margin-top: -8vh;
+    left: 56%;
 }
 
 .left-curve
@@ -157,4 +212,9 @@ body
 .comfortaa
 {
 	font-family:'comfortaa',cursive;
+}
+
+.expand .button_logo
+{
+	height:40%;
 }

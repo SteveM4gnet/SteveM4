@@ -12,6 +12,55 @@ body
 	transition:0.1s;
 }
 
+#loaderOverlay
+{
+	position:absolute;
+	top:0;
+	left:0;
+	height:100%;
+	width:100%;
+	background:#3D7FAF;
+	transition:0.8s;
+	z-index:150;
+}
+
+#loaderOverlay p
+{
+	position:absolute;
+	font-size:5vh;
+	top:60%;
+	color:#fff;
+}
+
+.loaderIcon
+{
+	top:50% !IMPORTANT;
+	left:50% !IMPORTANT;
+	transform:translate(-50%,-50%) !IMPORTANT;
+	transition:1s;
+}
+
+.loaderAnimation
+{
+	animation: loaderAnimation forwards infinite 2s;
+	transform:rotateY(0deg) translate(-50%,-50%) !IMPORTANT;
+	top:0;
+	left:0;
+	transition:1s;
+}
+
+@keyframes loaderAnimation
+{
+	0%
+	{
+		transform:translate(-50%,-50%) rotateY(0deg) ;
+	}
+	100%
+	{
+		transform:translate(-50%,-50%) rotateY(360deg);
+	}
+}
+
 #twitterIcon
 {
 	position:absolute;
@@ -38,6 +87,8 @@ body
 	left:2.5vh;
 	z-index:200;
 	box-sizing: border-box;
+	transition:0.5s;
+	transform:translate(0%,0%) rotateY(0deg);
 }
 
 #profilePic div
@@ -139,74 +190,12 @@ body
 	font-size:1.9vh;
 }
 
-#content-container
-{
-	position:absolute;
-	overflow-y:scroll;
-	height:72.5%;
-	width:100%;
-	top:27.5%;
-	left:0;
-}
-
-#content
-{
-	position:absolute;
-	background:#eee;
-	top:0%;
-	width:85%;
-	height:auto;
-	left:50%;
-	transform:translate(-50%,0%);
-	border-top:#3D7FAF 4vh solid;
-	border-bottom:#eee 4vh solid;
-}
-
-#content p
-{
-	position:absolute;
-	color:#fff;
-	line-height:0;
-	top:-2vh;
-	width:100%;
-	text-align:center;
-	height:0vh;
-	z-index:2;
-	padding:0;
-	margin:0;
-	font-size:2vh;
-}
-
-.latest
-{
-	background:#fff;
-	height:auto;
-	min-height:10vh;
-	max-height:10vh;
-	width:90%;
-	top:0vh;
-	left:10%;
-	box-sizing:border-box;
-	position:relative;
-	border:#eee 1vh solid;
-	border-radius:2vh;
-	overflow:hidden;
-	transition:0.1s;
-}
-
-.latest-logo
-{
-	position:absolute;
-	width:5%;
-	left:5%;
-	margin-top:5vh;
-	transform:translate(-50%,-50%);
-}
-
 .break
 {
 	height:5vh;
-	background:#3D7FAF;
+	background:#3D7FAF !IMPORTANT;
+	left:0;
+	width:100%;
 }
 
 .break p
@@ -248,7 +237,7 @@ body
 
 .comfortaa
 {
-	font-family:'comfortaa',cursive;
+	font-family:'comfortaa',Sans-serif;
 }
 
 button:hover
@@ -310,14 +299,17 @@ button
 
 .steam-workshop-item img
 {
-	position:absolute;
-	height:20%;
-	right:0%;
-	opacity:0.6;
+    position: absolute;
+    width: 30%;
+    right: 0%;
+    opacity: 1;
+    border: #2F4763 0.6vh solid;
+    box-sizing: border-box;
 }
 
 .steam-workshop-item-iframe
 {
 	position:absolute;
 	top:10vh;
+	transition:0.2s;
 }
