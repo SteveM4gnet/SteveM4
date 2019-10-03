@@ -42,7 +42,7 @@ body
 
 .loaderAnimation
 {
-	animation: loaderAnimation forwards infinite 2s;
+	animation: loaderAnimation forwards infinite 1s;
 	transform:rotateY(0deg) translate(-50%,-50%) !IMPORTANT;
 	top:0;
 	left:0;
@@ -53,11 +53,41 @@ body
 {
 	0%
 	{
-		transform:translate(-50%,-50%) rotateY(0deg) ;
+		border-top:#FFF 1vh solid;
+		border-left:#3D7FAF 1vh solid;
+		border-bottom:#3D7FAF 1vh solid;
+		border-right:#3D7FAF 1vh solid;	
 	}
+	25%
+	{
+		border-top:#3D7FAF 1vh solid;
+		border-left:#FFF 1vh solid;
+		border-bottom:#3D7FAF 1vh solid;
+		border-right:#3D7FAF 1vh solid;	
+	}
+	
+	50%
+	{
+		border-top:#3D7FAF 1vh solid;
+		border-left:#3D7FAF 1vh solid;
+		border-bottom:#FFF 1vh solid;
+		border-right:#3D7FAF 1vh solid;	
+	}
+	
+	75%
+	{
+		border-top:#3D7FAF 1vh solid;
+		border-left:#3D7FAF 1vh solid;
+		border-bottom:#3D7FAF 1vh solid;
+		border-right:#FFF 1vh solid;	
+	}
+	
 	100%
 	{
-		transform:translate(-50%,-50%) rotateY(360deg);
+		border-top:#FFF 1vh solid;
+		border-left:#3D7FAF 1vh solid;
+		border-bottom:#3D7FAF 1vh solid;
+		border-right:#3D7FAF 1vh solid;	
 	}
 }
 
