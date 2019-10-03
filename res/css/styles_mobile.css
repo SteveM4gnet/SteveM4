@@ -108,7 +108,7 @@ body
 {
 	position:absolute;
 	overflow-y:scroll;
-	height:72.5%;
+	height:68.5%;
 	width:100%;
 	top:27.5%;
 	left:0;
@@ -154,6 +154,12 @@ p#myLatest
     font-size: 2vh;
     text-align: center;
     color: #fff;
+}
+
+.break
+{
+	width:100% !IMPORTANT;
+	left:0 !IMPORTANT;
 }
 
 .latest
