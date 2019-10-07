@@ -9,6 +9,12 @@ function()
 	closeLoader();
 }
 
+function forceMobile()
+{
+	pageStyle.setAttribute("href", "res/css/styles_mobile.css");
+	pageOrient = 0;
+}
+
 function closeLoader()
 {
 	var loader = document.querySelector('#profilePic')
@@ -130,4 +136,19 @@ function minimise()
 		expandButton.style.left = '80%';
 		expandButton.setAttribute('onclick','expand()');
 	}	
+}
+
+function aboutMe()
+{
+	var aboutMeWindow = document.querySelector('#aboutMe');
+	
+	if (aboutMeWindow.classList == 'centered hide-aboutMe')
+	{
+		aboutMeWindow.classList = 'centered show-aboutMe';
+	}
+	else
+	{
+		aboutMeWindow.classList = 'centered hide-aboutMe';
+	}
+	
 }
