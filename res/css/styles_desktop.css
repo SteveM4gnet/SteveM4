@@ -218,3 +218,39 @@ body
 {
 	height:40%;
 }
+
+#footer p
+{
+    display: inline;
+    position: relative;
+    top: 20%;
+    margin-right: 22%;
+    text-decoration: underline;
+}
+
+#footer
+{
+    position: absolute;
+    height: 5%;
+    top: 0%;
+    z-index: 100;
+    color: #fff;
+    width: 50%;
+    left: 50%;
+}
+
+button#force-mobile
+{
+    right: 0%;
+    position: absolute;
+    top: 10%;
+    width: 5%;
+    z-index: 108;
+    height: 5%;
+    color: #fff;
+    background: #3d7faf;
+    border: none;
+	border-bottom-right-radius:1vh;
+	border-bottom-left-radius:1vh;
+	font-size:1.5vh;
+}

@@ -270,7 +270,7 @@ body
 	font-family:'comfortaa',Sans-serif;
 }
 
-button:hover
+button:hover, .pointer
 {
 	cursor:pointer;
 }
@@ -342,4 +342,73 @@ button
 	position:absolute;
 	top:10vh;
 	transition:0.2s;
+}
+
+.show-aboutMe
+{
+    position: absolute;
+    background: #3d7faf;
+    border-radius: 7vh;
+    box-sizing: border-box;
+    border: solid 1vh #fff;
+    width: 92.5%;
+    height: 95%;
+    z-index: 190;
+	transition:0.4s;
+}
+
+.hide-aboutMe
+{
+	position: absolute;
+    background: #3d7faf;
+    border-radius: 7vh;
+    box-sizing: border-box;
+    border: solid 1vh #fff;
+    z-index: 190;
+	width: 90%;
+    height: 0%;
+	transition:0.4s;
+	top:-10% !IMPORTANT;
+}
+
+#aboutMe div
+{
+	background:#fff;
+	width:90%;
+	height:80%;
+	position:absolute;
+	overflow-y:scroll;
+	padding:2vh;
+}
+
+#aboutMe div p
+{
+	font-size:1.75vh;
+}
+
+#aboutMe div h1, #aboutMe div h2
+{
+	text-align:center;
+	color:#3d7faf;
+}	
+
+#aboutMe img
+{
+	width:20%;
+	left:40%;
+	border-radius:10vh;
+	position:relative;
+}
+
+p.header, p.footer
+{
+    position: absolute;
+    color: #fff;
+    font-size: 3.5vh;
+    top: 0;
+}
+
+p.footer
+{
+	top:92.5%;
 }

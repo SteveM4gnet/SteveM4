@@ -2,7 +2,7 @@ body
 {
 	position:absolute;
 	width:100%;
-	max-width:150vh;
+	max-width:75vh;
 	height:100%;
 	margin:0;
 	top:0;
@@ -24,7 +24,6 @@ body
 	width:14vh;
 	height:14vh;
 	border-radius:10vh;
-	border:#fff 1vh solid;
 	top:2.5vh;
 	left:2.5vh;
 	z-index:200;
@@ -106,16 +105,15 @@ body
 
 #content-container
 {
-	position:absolute;
-	overflow-y:scroll;
-	height:68.5%;
-	width:100%;
-	top:27.5%;
-	left:0;
-	border-top:#3D7FAF 4vh solid;
-	border-bottom:#eee 4vh solid;
+    position: absolute;
+    overflow-y: scroll;
+    height: 60%;
+    width: 100%;
+    top: 27.5%;
+    left: 0;
+    border-top: #3D7FAF 4vh solid;
+    border-bottom: #3d7faf 4vh solid;
 }
-
 #content
 {
 	position:absolute;
@@ -222,4 +220,32 @@ p#myLatest
 .comfortaa
 {
 	font-family:'comfortaa',cursive;
+}
+
+#footer
+{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #3d7faf;
+    height: 5%;
+    z-index: 0;
+}
+
+#footer p {
+    color: #fff;
+    display: inline;
+    font-size: 2vh;
+    position: relative;
+    text-align: center;
+    margin: 10%;
+    height: 10%;
+    padding: 0;
+    line-height: 0;
+    text-decoration: underline;
+}
+
+button#force-mobile {
+	display:none;
 }
