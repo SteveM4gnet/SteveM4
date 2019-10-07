@@ -1,5 +1,12 @@
 <html>
 <head>
+<link rel="apple-touch-icon" sizes="180x180" href="/res/ico/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/res/ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/res/ico/favicon-16x16.png">
+<link rel="manifest" href="/res/ico/site.webmanifest">
+<link rel="mask-icon" href="/res/ico/safari-pinned-tab.svg" color="#3d7faf">
+<meta name="msapplication-TileColor" content="#3d7faf">
+<meta name="theme-color" content="#ffffff">
 <link rel="stylesheet" type="text/css" href="res/css/styles_default.css">
 <link id = 'pageStyle' rel="stylesheet" type="text/css" href="res/css/styles_desktop.css">
 <link href="https://fonts.googleapis.com/css?family=Comfortaa&display=swap" rel="stylesheet">
@@ -11,20 +18,57 @@
 <p class = 'centered comfortaa'>Loading</p>
 </div>
 <div id = 'profilePic' class = 'loaderAnimation loaderIcon'>
-	<div>
-		<p class = 'centered comfortaa'>About Steve</p>
+	<div  id = 'aboutMeIcon'>
+		<p class = 'centered comfortaa' onclick="aboutMe()">About Steve</p>
 	</div>
 	<img
 		id = 'twitterIcon'
 		class = 'centered'
 		src = 'res/img/twitter_icon.jpg'
 		alt = 'Twitter Icon'
+		onclick = 'aboutMe()'
 	>	
+</div>
+
+<div id = 'aboutMe' class = 'centered hide-aboutMe'>
+	<p class = 'centered comfortaa header'>About me</p>
+	<div class = 'comfortaa centered'>
+		<h1>Hi, I'm Steve.</h1>
+		<p>I like creating content on the Internet, and this is a website I have made myself where I can show off what I have made.</p>
+		<p>My main passions are Music production, web development, 3D Modelling and of course, trains.</br>
+		This isn't a CV, it's a piece of text on the internet about myself.</p>
+		<h2>Music production</h2>
+		<p>The music I produce can often be called 'Electronic', because its made on a computer. Beyond that, classifying it under a label or genre is difficult. One month I can be making a track like <a href = 'https://youtu.be/gzJTY7U_t3A'>Control</a> and other times I can make stuff like <a href = 'https://youtu.be/JB-amZa5yCs'>Aquarossa</a>.
+		<p>I have been producing music under various aliases for about 7 years now, and I believe I have acquired a unique style and flair in my production. You may have known me as <i>Mush, Kloizta or SplintR</i>, but none of these felt right. I have now come to unify my 'brand' as <b>SteveM4</b>. Bit more about that later.</p>
+		<h2>Web Development</h2>
+		<p>I started Web Development mid 2018 and, to be honest, I sucked at it. I have been teaching myself since and the end result of that is what you are seeing infront of you now.</p>
+		<p>I have done other projects for other businesses in the past, and this is my first personal project where I have complete control. The blue colour I like so much is hex #3D7FAF.</p>
+		<h2>3D Modelling and Modding</h2>
+		<p>I began modding games back in the late '00s when I found out you could mess with the files from <b>Chris Sawyer's Locomotion</b> using an old tool from 2004 called <i>LocoTool</i> to take apart the .dat files.</p>
+		<p>From there, I learned that most PC games (from that era) could be tweaked locally. I started messing with <b>Transport Tycoon</b>, <b>RollerCoaster Tycoon 2</b> and <b>Robot Arena 2</b> to name a few.</p>
+		<p>Later on, in 2018, is when I picked this up again with <b>Transport Fever</b> from Urban Games. I have known for a while how to mess with the local files, give engines more power or adjust the stats. However, I realised I could modify the models too if I learned <b>Blender</b>, and this is where my 3D Modelling hobby started</p>
+		<p>So far, I have really only made mods for Transport Fever, and they are all nearly exclusively steam locomotives from the UK (Bar one USA pack and a few diesels). I love moddeling and modding these engines as I learn a lot about the history and design of the locomotives</p>
+		<p>And that brings me nicely on too...</p>
+		<h2>TRAINS</h2>
+		<p>I like trains.</p>
+		<p>As you can see by my icons (that isn't the M4 logo), I do rather like the puffers. My love of trains goes back all the way back to one time when my late Grandpa took me to the Bluebell Railway in Sussex, and I saw my first full size steam locomotive.</p>
+		<p>If you are wondering, the little engine in the icon is <i>Lively Polly</i>, a tiny 0-4-0WT that ran around on the old Liverpool Overhead Railway, doing some shunts and whatnot.</p>
+		<p>If you need to know anything about steam locomotives, I am your guy.</p>
+		<h2>Branding</h2>
+		<p>I have recently undergone a huge rebrand to make everything uniform.</p>
+		<p>My YouTube has been renamed from SplintR, also my SoundCloud and secondary Twitter has been re-branded and re-launched under SteveM4.</p>
+		<p>The branding is really simple. Blue with white text. The blue is #3D7FAF and the font is Comfortaa on pure white. The logo is three white upside down piano keys on the blue with a white <b>4</b>, can be inverted.<p>
+		<img src = 'res/img/m4logo.png'>
+		<p>My secondary branding for personal Twitter and YouTube where I post history things is Lively Polly, with the banner image being whatever I find good at that point.</p>
+		<p>If you ever want to donate to me, as you have made it this far, please click on the little engine below</p>
+		<a href = 'https://www.paypal.me/steveMagnet'><img src = 'res/img/livelyPolly-blue.png'></a></br>
+	</div>
+	<p onclick = 'aboutMe()' class = 'centered comfortaa footer pointer'>Back</p>	
 </div>
 
 <div id = 'banner'>
 	<div id = 'bannerText'>
-		<p class = 'comfortaa'>Steve's stuff</p>
+		<p onclick = 'aboutMe()' class = 'comfortaa pointer'>SteveM4.co.uk</p>
 	</div>
 	<div id = 'bannerButtons' >
 		<button
@@ -200,6 +244,12 @@
 		
 	</div>
 </div>
+<div id="footer" class="comfortaa">
+    <p class = 'pointer' onclick = 'contactMe()'>Contact</p>
+    <p class = 'pointer' onclick = 'aboutMe()'>About</p>
+    <p class = 'pointer' onclick = 'links()'>Links</p>
+</div>
 
+<button id = 'force-mobile' onclick = 'forceMobile()' class = 'comfortaa'>Mobile View</button>
 </body>
 </html>
