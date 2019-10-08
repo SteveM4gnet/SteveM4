@@ -249,3 +249,43 @@ p#myLatest
 button#force-mobile {
 	display:none;
 }
+
+
+
+.hide-contact, .hide-links
+{
+	position: absolute;
+    bottom: -90%;
+    width: 90%;
+    left: 5%;
+    height: 30%;
+    background: #fff;
+    border: solid 0.5vh #3d7faf;
+    border-top-left-radius: 2.5vh;
+    border-top-right-radius: 2.5vh;
+    transition: 0.2s;
+	box-sizing:border-box;
+}
+
+.hide-links
+{
+	height: 50%;
+}
+
+#contact p, #links p
+{
+    left: 5%;
+    position: relative;
+    font-size: 2vh;
+}
+
+h3 
+{    
+	text-align: center;
+    color: #3d7faf;
+}
+
+.show-contact, .show-links
+{
+    bottom: 8%;
+}

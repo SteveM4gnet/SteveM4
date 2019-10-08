@@ -412,3 +412,56 @@ p.footer
 {
 	top:92.5%;
 }
+
+#footer button {
+    position: relative;
+    width: 33%;
+    height: 100%;
+    margin-right: -0.6%;
+    background: rgba(0,0,0,0);
+    border: none;
+    color: #fff;
+    font-family: 'comfortaa';
+    transform: translate(0, -30%);
+    text-decoration: underline;
+}
+
+
+
+.hide-contact, .hide-links
+{
+	position: absolute;
+    bottom: -90%;
+    width: 90%;
+    left: 5%;
+    height: 30%;
+    background: #fff;
+    border: solid 0.5vh #3d7faf;
+    border-top-left-radius: 2.5vh;
+    border-top-right-radius: 2.5vh;
+    transition: 0.2s;
+	box-sizing:border-box;
+}
+
+.hide-links
+{
+	height: 50%;
+}
+
+#contact p, #links p
+{
+    left: 5%;
+    position: relative;
+    font-size: 2vh;
+}
+
+h3 
+{    
+	text-align: center;
+    color: #3d7faf;
+}
+
+.show-contact, .show-links
+{
+    bottom: 8%;
+}

@@ -254,3 +254,8 @@ button#force-mobile
 	border-bottom-left-radius:1vh;
 	font-size:1.5vh;
 }
+
+#footer button
+{
+	transform: translate(0,0);
+}

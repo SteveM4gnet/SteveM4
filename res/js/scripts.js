@@ -152,3 +152,15 @@ function aboutMe()
 	}
 	
 }
+
+function contactMe()
+{
+	var contactMeWindow = document.querySelector('#contact');
+	contactMeWindow.classList.toggle('show-contact');
+}
+
+function showLinks()
+{
+	var linksWindow = document.querySelector('#links');
+	linksWindow.classList.toggle('show-links');
+}
