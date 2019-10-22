@@ -1,5 +1,4 @@
-var	spriteSpeedScale = 50,
-	spriteDirection = 1,
+var	spriteSpeedScale = 60,
 	keyState = 0,
 	mul = 1,
 	leftPos,
@@ -10,6 +9,7 @@ var	spriteSpeedScale = 50,
 	jumpStart,
 	jumpTrans,
 	forwards,
+	isJump = false,
 	stopped,
 	accel = mul,
 	floorHeight = 10,
@@ -22,14 +22,16 @@ window.onload = function init()
 	var busterSprite = document.querySelector("#buster");
 	busterSprite.style.bottom = '10px';
 	busterSprite.style.backgroundPosition = '-60px 0px';
+	stop();
 }
 
-document.onkeydown = function(e)
+document.onkeydown = function keydown()
 {
-	var repeat = event.repeat;
+	var repeat = event.repeat,
+		e;
 	if (!repeat)
 	{
-		if (keyState == 0)
+		if (keyState == 0 || keyState == 1 )
 		{
 			e = e || window.event;
 			if (e.keyCode == '38') {
@@ -37,18 +39,18 @@ document.onkeydown = function(e)
 			   jump();
 			}
 			else if (e.keyCode == '40') {
-			   keyState = 2;
+			   keyState = 1;
 		   }
 			else if (e.keyCode == '37') {
-				keyState = 3;
+				keyState = 1;
 				if (stopped)
 				{
 					runLeft();
 					stopped = false;
-				}				
+				}
 			}
 			else if (e.keyCode == '39') {
-				keyState = 4;
+				keyState = 1;
 				if (stopped)
 				{
 					runRight();
@@ -58,9 +60,14 @@ document.onkeydown = function(e)
 		}
 	}
 }
+
 document.onkeyup = function()
 {
 	keyState = 0;
+	if (forwards)
+	{
+		runRight();
+	}
 	stop();
 }
 
@@ -70,7 +77,20 @@ function stop()
 	leftPos = Number(busterSprite.style.left.split('px')[0]);
 	if (mul > 1)
 	{
-		if (forwards)
+		if (isJump)
+		{
+			if (forwards)
+			{
+				busterSprite.style.backgroundPosition = '-60px 0px';
+				busterSprite.style.left = leftPos + (2 * mul);
+			}
+			else
+			{
+				busterSprite.style.backgroundPosition = '-60px 0px';
+				busterSprite.style.left = leftPos - (2 * mul);
+			}
+		}
+		else if (forwards)
 		{
 			switch (step)
 			{
@@ -90,6 +110,16 @@ function stop()
 					busterSprite.style.left = leftPos + (2 * mul);
 					break;
 				case 3:
+					busterSprite.style.backgroundPosition = '-60px 0px';
+					step = 4;
+					busterSprite.style.left = leftPos + (2 * mul);
+					break;
+				case 4:
+					busterSprite.style.backgroundPosition = '-40px 0px';
+					step = 5;
+					busterSprite.style.left = leftPos + (2 * mul);
+					break;
+				case 5:
 					busterSprite.style.backgroundPosition = '-20px 0px';
 					step = 0;
 					busterSprite.style.left = leftPos + (2 * mul);
@@ -116,6 +146,16 @@ function stop()
 					busterSprite.style.left = leftPos - (2 * mul);
 					break;
 				case 3:
+					busterSprite.style.backgroundPosition = '-60px 0px';
+					step = 4;
+					busterSprite.style.left = leftPos - (2 * mul);
+					break;
+				case 4:
+					busterSprite.style.backgroundPosition = '-40px 0px';
+					step = 5;
+					busterSprite.style.left = leftPos - (2 * mul);
+					break;
+				case 5:
 					busterSprite.style.backgroundPosition = '-20px 0px';
 					step = 0;
 					busterSprite.style.left = leftPos - (2 * mul);
@@ -126,9 +166,12 @@ function stop()
 	}
 	else
 	{
-		busterSprite.style.backgroundPosition = '-60px 0px';
 		mul = 1;
 		stopped = true;
+		if (!isJump)
+		{
+			busterSprite.style.backgroundPosition = '-60px 0px';
+		}
 	}
 	
 	checkLeft();
@@ -180,27 +223,37 @@ function runRight()
 	{
 		switch (step)
 		{
-			case 0:
-				busterSprite.style.backgroundPosition = '-00px 0px';
-				step = 1;
-				busterSprite.style.left = leftPos + (2 * mul);
-				break;
-			case 1:
-				busterSprite.style.backgroundPosition = '-20px 0px';
-				step = 2;
-				busterSprite.style.left = leftPos + (2 * mul);
-				break;
-			case 2:
-				busterSprite.style.backgroundPosition = '-40px 0px';
-				step = 3;
-				busterSprite.style.left = leftPos + (2 * mul);
-				break;
-			case 3:
-				busterSprite.style.backgroundPosition = '-20px 0px';
-				step = 0;
-				busterSprite.style.left = leftPos + (2 * mul);
-				break;
-		}
+				case 0:
+					busterSprite.style.backgroundPosition = '-00px 0px';
+					step = 1;
+					busterSprite.style.left = leftPos + (2 * mul);
+					break;
+				case 1:
+					busterSprite.style.backgroundPosition = '-20px 0px';
+					step = 2;
+					busterSprite.style.left = leftPos + (2 * mul);
+					break;
+				case 2:
+					busterSprite.style.backgroundPosition = '-40px 0px';
+					step = 3;
+					busterSprite.style.left = leftPos + (2 * mul);
+					break;
+				case 3:
+					busterSprite.style.backgroundPosition = '-60px 0px';
+					step = 4;
+					busterSprite.style.left = leftPos + (2 * mul);
+					break;
+				case 4:
+					busterSprite.style.backgroundPosition = '-40px 0px';
+					step = 5;
+					busterSprite.style.left = leftPos + (2 * mul);
+					break;
+				case 5:
+					busterSprite.style.backgroundPosition = '-20px 0px';
+					step = 0;
+					busterSprite.style.left = leftPos + (2 * mul);
+					break;
+			}
 	}
 	else
 	{
@@ -262,28 +315,38 @@ function runLeft()
 	if (mul < 2)
 	{
 		switch (step)
-		{
-			case 0:
-				busterSprite.style.backgroundPosition = '-00px 0px';
-				step = 1;
-				busterSprite.style.left = leftPos - (2 * mul);
-				break;
-			case 1:
-				busterSprite.style.backgroundPosition = '-20px 0px';
-				step = 2;
-				busterSprite.style.left = leftPos - (2 * mul);
-				break;
-			case 2:
-				busterSprite.style.backgroundPosition = '-40px 0px';
-				step = 3;
-				busterSprite.style.left = leftPos - (2 * mul);
-				break;
-			case 3:
-				busterSprite.style.backgroundPosition = '-20px 0px';
-				step = 0;
-				busterSprite.style.left = leftPos - (2 * mul);
-				break;
-		}
+			{
+				case 0:
+					busterSprite.style.backgroundPosition = '-00px 0px';
+					step = 1;
+					busterSprite.style.left = leftPos - (2 * mul);
+					break;
+				case 1:
+					busterSprite.style.backgroundPosition = '-20px 0px';
+					step = 2;
+					busterSprite.style.left = leftPos - (2 * mul);
+					break;
+				case 2:
+					busterSprite.style.backgroundPosition = '-40px 0px';
+					step = 3;
+					busterSprite.style.left = leftPos - (2 * mul);
+					break;
+				case 3:
+					busterSprite.style.backgroundPosition = '-60px 0px';
+					step = 4;
+					busterSprite.style.left = leftPos - (2 * mul);
+					break;
+				case 4:
+					busterSprite.style.backgroundPosition = '-40px 0px';
+					step = 5;
+					busterSprite.style.left = leftPos - (2 * mul);
+					break;
+				case 5:
+					busterSprite.style.backgroundPosition = '-20px 0px';
+					step = 0;
+					busterSprite.style.left = leftPos - (2 * mul);
+					break;
+			}
 	}
 	else
 	{
@@ -340,6 +403,7 @@ function runLeft()
 
 function jump()
 {	
+	isJump = true;
 	var busterSprite = document.querySelector("#buster");
 		busterSprite.style.backgroundPosition = '-80px 0px',
 		jumpStart = busterSprite.style.bottom,
@@ -352,7 +416,7 @@ function jump()
 		
 	// if (keyState == 0)
 	// {
-		// busterSprite.style.backgroundPosition = '-80px 0px';
+		// 
 		// stop();
 		// return;
 	// }
@@ -366,6 +430,7 @@ function jump()
 		if (jumpTrans < jumpTransInit + 40)
 		{
 			busterSprite.style.bottom = jumpTrans + 'px';
+			busterSprite.style.backgroundPosition = '-80px 0px';
 			jumpTrans = jumpTrans + (2);
 			accel = (accel*1.2);
 			busterHeight = busterSprite.style.bottom;
@@ -388,6 +453,7 @@ function jump()
 		if (jumpTrans > floorHeight)
 		{
 			busterSprite.style.bottom = jumpTrans + 'px';
+			busterSprite.style.backgroundPosition = '-100px 0px';
 			jumpTrans = jumpTrans - (1);
 			accel = (accel/1.15);
 			busterHeight = busterSprite.style.bottom;
@@ -400,6 +466,7 @@ function jump()
 			busterSprite.style.bottom = jumpTrans + 'px';
 			busterHeight = busterSprite.style.bottom;			
 			stop();
+			isJump = false;
 			return;
 		}
 	setTimeout(jumpDown, accel);
