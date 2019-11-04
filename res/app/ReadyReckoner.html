@@ -1,0 +1,316 @@
+<html>
+<head>
+</head>
+<title>
+Ready Reckoner
+</title>
+<body>
+<div id = 'container'>
+	<div class = 'header'>
+		<p>Quick Co2 Percentage Calculator</p>
+	</div>
+	<div class = 'app'>
+		<pre id = 'question'></pre>
+
+		<button
+			class = 'button'
+			id = 'boolTrue_1'
+			onclick  = 'nextQ(1)'
+			>Yes
+		</button>
+
+		<button
+			class = 'button'
+			id = 'boolFalse_1'
+			onclick  = 'nextQ(0)'
+			>No
+		</button>
+
+		<pre id = 'solution'></pre>
+
+		<div id = 'quickCal'>
+			<input
+				type = 'number'
+				class = 'hidden'
+				id = 'co2'
+				onchange = 'calcPerc()'
+				placeholder = 'Co2'>
+			</input>
+			<input
+				type = 'number'
+				class = 'hidden'
+				id = 'ulev'
+				onchange = 'calcUlev()'
+				placeholder = 'Electric Range (Miles)'>
+			</input>
+			<pre id = 'percentage'></pre>
+		</div>
+	</div>
+</div>
+</body>
+<style>
+body
+{
+	position:absolute;
+	width:100%;
+	max-width:100vh;
+	height:100%;
+	margin:0;
+	top:0;
+	left:50%;
+	overflow:hidden;
+	transform:translate(-50%,0);
+}
+
+#container
+{
+	height:100%;
+}
+
+.header
+{
+	position:absolute;
+	top:15%;
+	width:100%;
+	height:5vh;
+	font-size:2vh;
+	z-index:3;
+}
+
+p, pre
+{
+	width:100%;
+	text-align:center;
+	color:#fff;
+}
+
+p
+{
+	font-family:arial;
+	margin:0;
+	line-height:0%;
+	position:absolute;
+	top:50%;
+}
+
+pre
+{
+	color:#3d7faf;
+	font-weight:700;
+	font-size:2vh;
+}
+
+.app
+{
+	background-color:#fff;
+	border:solid 0.5vh #3d7faf;
+	border-top:solid 5vh #3d7faf;
+	border-radius:5vh;
+	box-sizing:border-box;
+	position:absolute;
+	width:90%;
+	left:5%;
+	top:15%;
+	height:50%;
+	transition:1s;
+	overflow:hidden;
+}
+
+.button
+{
+	position:relative;
+	background:#f00;
+	border:none;
+	width:25%;
+	height:5vh;
+	left:50%;
+	transform:translate(-100%,0);
+	color:#fff;
+	border-radius:1vh;
+	transition:0.1s;
+	box-shadow:0.0vh 0.0vh 0vh #aaa;
+}
+
+.button:hover
+{
+	filter:contrast(2);
+	box-shadow:0.1vh 0.3vh 0vh #aaa;
+}
+
+.button:active
+{
+	filter:contrast(1.5);
+	box-shadow:0.1vh 0.2vh 0vh #aaa;
+}
+
+.button:focus
+{
+	outline:none;
+	box-shadow:0.1vh 0.5vh 0vh #aaa;
+}
+
+#boolFalse_1
+{
+	background:#C43838;
+}
+
+#boolTrue_1
+{
+	background:#3BAA50;
+}
+
+#quickCal
+{
+	position:absolute;
+	top:40%;
+	left:50%;
+	transform:translate(-50%,0);
+}
+
+input
+{
+	border:solid 0.2vh #3d7faf;
+	padding:1vh;
+	text-align:center;
+	border-radius:1vh;
+	font-size:4vh;
+	width:10vw;
+	transition:0.3s;
+}
+
+#ulev
+{
+	font-size:1.5vh;
+}
+
+input:focus
+{
+	outline:none;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button
+{ 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+.hidden
+{
+    opacity: 1;
+    width: 0;
+    border: none;
+    font-size: 0;
+    padding: 0;
+    transition: 0.5s;
+}
+</style>
+<script>
+var qstn = document.getElementById('question'),
+	sltn = document.getElementById('solution'),
+	bton = document.querySelectorAll('.button'),
+	pBin = 0,
+	clmn = 0,
+	init = 2.5,
+	qNum = 0;
+
+var textQstn = 
+	[
+		'Is your car an all electric vehicle',
+		'Is the Co2 Emessions of your car 50g/km or below',
+		'Is date of reg before 06/04/2020',
+		'Is car fuel type A/F',
+		'Is car Co2 1-50g/km',
+	],
+	textSltn = 
+	[
+		'You have a new car with higher emissions than the ULEV bracket',
+		'You have a new car with rather high emissions.',
+		'You have an old Ultra Low Emission Vehicle.',
+		'You have an old car with high emissions.',
+		'Use correct column agaist electric range/Co2 range to identify %',
+		'Enter Zero Emissions',
+		'Use Reckoner to find appropriate %',
+		'You have a new Ultra Low Emission Vehicle.',
+		'You have an All Elctric Vehicle. This has a 0 Co2 value and 0% taxable.',
+	];
+window.onload = function()
+{
+	var bool = '';
+	start(bool);
+}
+
+function start(bool)
+{
+	qstn.innerHTML = textQstn[qNum] + '?';
+	pBin += bool;
+	console.log(pBin);
+	pBin == '01'	? showSltn(8,0,0,0) :
+	pBin == '001'	? showSltn(7,0,0,1) :
+	pBin == '00011' ? showSltn(0,0,1,0) :
+	pBin ==	'00010' ? showSltn(1,-4,1,0):
+	pBin ==	'00001' ? showSltn(2,2,1,0) :
+	pBin ==	'00000' ? showSltn(3,-2,1,0): null;
+}
+
+function showSltn(val,clmn,b,c)
+{
+	var co2 = document.getElementById('co2'),
+		ulev = document.getElementById('ulev'),
+		a;
+		
+	b == 1 ? co2.classList.toggle('hidden') : null;
+	c == 1 ? ulev.classList.toggle('hidden') : null;
+	sltn.innerHTML = textSltn[val];
+	init = init - clmn;
+	for (a = 0; a < bton.length; a++)
+	{
+		bton[a].classList.toggle('hidden');
+	}
+}
+
+function nextQ(bool)
+{
+	if (bool)
+	{
+		qNum++;
+		start(bool);
+		return;
+	}
+	else
+	{
+		qNum++;
+		start(bool);
+		return;
+	}
+}
+
+function calcPerc()
+{
+	var co2 = document.getElementById('co2').value,
+		pcnt = document.getElementById('percentage'),
+		mul,
+		calc;
+	co2 = Math.ceil(co2 / 5) * 5;
+	mul = ((co2-50)/5)/4;
+	calc = (co2/4 + (init - mul));
+	
+	pcnt.innerHTML = calc + '%';
+}
+
+function calcUlev()
+{
+	var ulev = document.getElementById('ulev').value,
+		pcnt = document.getElementById('percentage'),
+		a;
+		
+	ulev < 30 ? a = 14 :
+	ulev < 39 ? a = 12 :
+	ulev < 69 ? a = 8 :
+	ulev < 129 ? a  = 5 :
+	ulev > 130 ? a = 2 : a = 0 ;
+	
+	pcnt.innerHTML = a + '%';
+}
+</script>
+</html>
