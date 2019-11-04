@@ -212,6 +212,7 @@ var qstn = document.getElementById('question'),
 	pBin = 0,
 	clmn = 0,
 	init = 2.5,
+	Apr6 = false;
 	qNum = 0;
 
 var textQstn = 
@@ -219,7 +220,7 @@ var textQstn =
 		'Is your car an all electric vehicle',
 		'Is the Co2 Emessions of your car 50g/km or below',
 		'Is date of reg before 06/04/2020',
-		'Is car fuel type A/F',
+		'Is the vehicle a Diesel',
 		'Is car Co2 1-50g/km',
 	],
 	textSltn = 
@@ -245,15 +246,16 @@ function start(bool)
 	qstn.innerHTML = textQstn[qNum] + '?';
 	pBin += bool;
 	console.log(pBin);
-	pBin == '01'	? showSltn(8,0,0,0) :
-	pBin == '001'	? showSltn(7,0,0,1) :
-	pBin == '00011' ? showSltn(0,0,1,0) :
-	pBin ==	'00010' ? showSltn(1,-4,1,0):
-	pBin ==	'00001' ? showSltn(2,2,1,0) :
-	pBin ==	'00000' ? showSltn(3,-2,1,0): null;
+	pBin == '01'	? showSltn(8, 0, 0, 0, 0) :
+	pBin == '0010'	? showSltn(7, 0, 0, 1, 0) :
+	pBin == '0011'	? showSltn(7, 0, 0, 1, 1) :
+	pBin == '00011' ? showSltn(0, 0, 1, 0, 1) :
+	pBin ==	'00010' ? showSltn(1,-4, 1, 0, 1) :
+	pBin ==	'00000' ? showSltn(2, 2, 1, 0, 0) :
+	pBin ==	'00001' ? showSltn(3,-2, 1, 0, 0): null;
 }
 
-function showSltn(val,clmn,b,c)
+function showSltn(val,clmn,b,c,d)
 {
 	var co2 = document.getElementById('co2'),
 		ulev = document.getElementById('ulev'),
@@ -261,6 +263,7 @@ function showSltn(val,clmn,b,c)
 		
 	b == 1 ? co2.classList.toggle('hidden') : null;
 	c == 1 ? ulev.classList.toggle('hidden') : null;
+	d == 1 ? Apr6 = true: null;
 	sltn.innerHTML = textSltn[val];
 	init = init - clmn;
 	for (a = 0; a < bton.length; a++)
@@ -309,6 +312,8 @@ function calcUlev()
 	ulev < 69 ? a = 8 :
 	ulev < 129 ? a  = 5 :
 	ulev > 130 ? a = 2 : a = 0 ;
+	
+	Apr6 ? a = a - 2 : null;
 	
 	pcnt.innerHTML = a + '%';
 }
