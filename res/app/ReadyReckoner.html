@@ -252,7 +252,7 @@ var textQstn =
 		'Use correct column agaist electric range/Co2 range to identify %',
 		'Enter Zero Emissions',
 		'You have an old Ultra Low Emission Vehicle.',
-		'You have an All Elctric Vehicle. This has a 0 Co2 value and 0% taxable.',
+		'You have an All Electric Vehicle. This has a 0 Co2 value and 0% taxable.',
 		'You have a post 06/04/2020 diesel',
 		'You have a pre 06/04/2020 diesel',
 	];
@@ -271,10 +271,10 @@ function start(bool)
 	Matrix:
 	txtSltn, column, show Co2, show Elec Range, newer than 06/04/2020, diesel
 	*/
-	pBin == '01'	? showSltn(8, 0, 0, 0, 0) :	
+	pBin == '01'	? showSltn(7, 0, 0, 0, 0) :	
 	pBin == '0011'	? showSltn(9, 0, 1, 0, 1) :
 	pBin ==	'0001'  ? showSltn(8,-4, 1, 0, 0) :
-	pBin == '00101'	? showSltn(7, 0, 0, 1, 0) :
+	pBin == '00101'	? showSltn(6, 0, 0, 1, 0) :
 	pBin == '00100'	? showSltn(1, 0, 1, 0, 0) :
 	pBin == '00011' ? showSltn(0, 0, 1, 0, 1) :	
 	pBin ==	'00000' ? showSltn(2, 2, 1, 0, 0) :
