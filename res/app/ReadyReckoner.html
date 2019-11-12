@@ -43,10 +43,14 @@ Ready Reckoner
 				onchange = 'calcUlev()'
 				placeholder = 'Electric Range (Miles)'>
 			</input>
-			<pre id = 'percentage'></pre>
+		
 		</div>
+		<pre id = 'percentage'></pre>
 	</div>
+	<pre id = 'history'></pre>
+	<pre id = 'vehicleProfile'></pre>
 </div>
+
 </body>
 <style>
 body
@@ -98,6 +102,11 @@ pre
 	color:#3d7faf;
 	font-weight:700;
 	font-size:2vh;
+}
+
+#question
+{
+    width: 100%;
 }
 
 .app
@@ -176,6 +185,8 @@ input
 	font-size:4vh;
 	width:10vw;
 	transition:0.3s;
+	position:absolute;
+	transform: translate(-50%,00);
 }
 
 #ulev
@@ -195,45 +206,55 @@ input[type=number]::-webkit-outer-spin-button
   margin: 0; 
 }
 
+#percentage
+{
+    position: absolute;
+    top: 65%;
+	margin:0;
+    font-size: 5vh;
+    line-height: 0;
+    padding: 0;
+}
+
 .hidden
 {
-    opacity: 1;
+    opacity: 0;
     width: 0;
     border: none;
-    font-size: 0;
-    padding: 0;
-    transition: 0.5s;
+    transition: 0.4s;
 }
 </style>
 <script>
 var qstn = document.getElementById('question'),
 	sltn = document.getElementById('solution'),
 	bton = document.querySelectorAll('.button'),
+	hist = document.getElementById('history'),
 	pBin = 0,
 	clmn = 0,
 	init = 2.5,
 	Apr6 = false;
+	desl = false;
 	qNum = 0;
 
 var textQstn = 
 	[
-		'Is your car an all electric vehicle',
-		'Is the Co2 Emessions of your car 50g/km or below',
+		'Is your car an all electric vehicle',	
 		'Is date of reg before 06/04/2020',
 		'Is the vehicle a Diesel',
-		'Is car Co2 1-50g/km',
+		'Is the Co2 Emessions of your car 50g/km or below',
 	],
 	textSltn = 
 	[
 		'You have a new car with higher emissions than the ULEV bracket',
-		'You have a new car with rather high emissions.',
-		'You have an old Ultra Low Emission Vehicle.',
+		'You have a new car with rather high emissions.',		
 		'You have an old car with high emissions.',
+		'You have a new Ultra Low Emission Vehicle.',
 		'Use correct column agaist electric range/Co2 range to identify %',
 		'Enter Zero Emissions',
-		'Use Reckoner to find appropriate %',
-		'You have a new Ultra Low Emission Vehicle.',
+		'You have an old Ultra Low Emission Vehicle.',
 		'You have an All Elctric Vehicle. This has a 0 Co2 value and 0% taxable.',
+		'You have a post 06/04/2020 diesel',
+		'You have a pre 06/04/2020 diesel',
 	];
 window.onload = function()
 {
@@ -246,16 +267,34 @@ function start(bool)
 	qstn.innerHTML = textQstn[qNum] + '?';
 	pBin += bool;
 	console.log(pBin);
-	pBin == '01'	? showSltn(8, 0, 0, 0, 0) :
-	pBin == '0010'	? showSltn(7, 0, 0, 1, 0) :
-	pBin == '0011'	? showSltn(7, 0, 0, 1, 1) :
-	pBin == '00011' ? showSltn(0, 0, 1, 0, 1) :
-	pBin ==	'00010' ? showSltn(1,-4, 1, 0, 1) :
+	/*
+	Matrix:
+	txtSltn, column, show Co2, show Elec Range, newer than 06/04/2020, diesel
+	*/
+	pBin == '01'	? showSltn(8, 0, 0, 0, 0) :	
+	pBin == '0011'	? showSltn(9, 0, 1, 0, 1) :
+	pBin ==	'0001'  ? showSltn(8,-4, 1, 0, 0) :
+	pBin == '00101'	? showSltn(7, 0, 0, 1, 0) :
+	pBin == '00100'	? showSltn(1, 0, 1, 0, 0) :
+	pBin == '00011' ? showSltn(0, 0, 1, 0, 1) :	
 	pBin ==	'00000' ? showSltn(2, 2, 1, 0, 0) :
-	pBin ==	'00001' ? showSltn(3,-2, 1, 0, 0): null;
+	pBin ==	'00001' ? showSltn(3,-2, 0, 1, 1) : null;
+	
+	if (qNum)
+	{
+		hist.innerHTML += history() + '\n';
+		function history(hBin,hTxt)
+		{
+			hBin = pBin.slice(qNum);
+			hTxt = textQstn[qNum-1];
+			hTxt += hBin == '1' ? ': yes' : ': no'
+			return hTxt;
+		};
+	}
+	qNum > 4 ? qNum = 0 : null;
 }
 
-function showSltn(val,clmn,b,c,d)
+function showSltn(val,clmn,b,c,d,e)
 {
 	var co2 = document.getElementById('co2'),
 		ulev = document.getElementById('ulev'),
@@ -264,7 +303,9 @@ function showSltn(val,clmn,b,c,d)
 	b == 1 ? co2.classList.toggle('hidden') : null;
 	c == 1 ? ulev.classList.toggle('hidden') : null;
 	d == 1 ? Apr6 = true: null;
+	e == 1 ? desl = true: null;
 	sltn.innerHTML = textSltn[val];
+	qstn.classList.toggle('hidden');
 	init = init - clmn;
 	for (a = 0; a < bton.length; a++)
 	{
@@ -293,12 +334,15 @@ function calcPerc()
 	var co2 = document.getElementById('co2').value,
 		pcnt = document.getElementById('percentage'),
 		mul,
-		calc;
-	co2 = Math.ceil(co2 / 5) * 5;
+		a;
+	co2 = (String(co2/5).split('.')[0])*5
 	mul = ((co2-50)/5)/4;
-	calc = (co2/4 + (init - mul));
+	a = (co2/4 + (init - mul));
 	
-	pcnt.innerHTML = calc + '%';
+	Apr6 ? a = a - 2 : null;
+	desl ? a = a + (a/25): null;
+	
+	pcnt.innerHTML = a + '%';
 }
 
 function calcUlev()
@@ -314,6 +358,7 @@ function calcUlev()
 	ulev > 130 ? a = 2 : a = 0 ;
 	
 	Apr6 ? a = a - 2 : null;
+	
 	
 	pcnt.innerHTML = a + '%';
 }
