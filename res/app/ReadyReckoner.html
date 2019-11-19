@@ -7,7 +7,7 @@ Ready Reckoner
 <body>
 <div id = 'container'>
 	<div class = 'header'>
-		<p>Quick Co2 Percentage Calculator 0.2.3</p>
+		<p>Quick Co2 Percentage Calculator 0.2.6</p>
 	</div>
 	<div class = 'app'>
 		<pre id = 'question'></pre>
@@ -42,6 +42,13 @@ Ready Reckoner
 				id = 'ulev'
 				onchange = 'calcUlev()'
 				placeholder = 'Electric Range (Miles)'>
+			</input>
+			<input
+				type = 'number'
+				class = 'hidden'
+				id = 'listPrice'
+				onchange = 'listPrice()'
+				placeholder = 'List price of car'>
 			</input>
 		
 		</div>
@@ -239,7 +246,7 @@ input
 	transform: translate(-50%,00);
 }
 
-#ulev
+#ulev, #listPrice
 {
 	font-size:1.5vh;
 }
@@ -251,7 +258,7 @@ input:focus
 
 pre#solution {
     position: absolute;
-    top: 45%;
+    top: 10%;
 }
 
 input[type=number]::-webkit-inner-spin-button, 
@@ -264,7 +271,7 @@ input[type=number]::-webkit-outer-spin-button
 #percentage
 {
     position: absolute;
-    top: 15%;
+    top: 45%;
 	margin:0;
     font-size: 5vh;
     line-height: 0;
@@ -430,12 +437,12 @@ function nextQ(bool)
 
 function calcPerc()
 {
-	var co2 = document.getElementById('co2').value,
+	var co2 = document.getElementById('co2'),
 		pcnt = document.getElementById('percentage'),
 		a,
-		co2,
 		mul;
-		
+	
+	showListPrice(co2);	
 	var calc = document.querySelector('#calc-pre'),
 		valA = document.querySelector('valA'),
 		valB = document.querySelector('valB'),
@@ -447,9 +454,9 @@ function calcPerc()
 		valH = document.querySelector('valH');
 	
 	//----------------
-		valA.innerHTML = co2;
+		valA.innerHTML = co2.value;
 	//----------------	
-	co2 = (String(co2/5).split('.')[0])*5
+	co2 = (String(co2.value/5).split('.')[0])*5
 	//-----------------
 		valB.innerHTML = co2;
 	//-----------------
@@ -469,30 +476,45 @@ function calcPerc()
 	rde2 ? (a = (a - 4), valH.innerHTML = 'RDE2 diesel, no attraction') : valH.innerHTML = 'None';	
 	
 	pcnt.innerHTML = a + '%';
+	
 }
 
 function calcUlev()
 {
-	var ulev = document.getElementById('ulev').value,
+	var ulev = document.getElementById('ulev'),
 		pcnt = document.getElementById('percentage');
-		
-	ulev < 30 ? a = 14 :
-	ulev < 39 ? a = 12 :
-	ulev < 69 ? a = 8 :
-	ulev < 129 ? a  = 5 :
-	ulev > 130 ? a = 2 : a = 0 ;
+	
+	showListPrice(ulev);	
+	ulev.value < 30 ? a = 14 :
+	ulev.value < 39 ? a = 12 :
+	ulev.value < 69 ? a = 8 :
+	ulev.value < 129 ? a  = 5 :
+	ulev.value > 130 ? a = 2 : a = 0 ;
 	
 	Apr6 ? a = (a - 2) : null;
 	desl ? a = (a + 4) : null;
 	rde2 ? a = (a - 4) : null;
 	
 	pcnt.innerHTML = a + '%';
+	
 }
 
 function viewCalc()
 {
 	var show = document.getElementById('calc-pre');
 	show.classList.toggle('show');
+}
+
+function showListPrice(hide)
+{
+	var prce = document.getElementById('listPrice');
+	hide.classList.toggle('hidden');
+	prce.classList.toggle('hidden');
+}
+
+function listPrice()
+{
+	
 }
 </script>
 </html>
