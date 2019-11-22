@@ -8,7 +8,7 @@ Ready Reckoner
 <body>
 <div id = 'container'>
 	<div class = 'header'>
-		<p>Quick Co2 Percentage Calculator 0.3.1</p>
+		<p>Quick CO<sub>2</sub> Percentage Calculator 0.3.1</p>
 	</div>
 	<div class = 'app'>
 		<pre id = 'question'></pre>
@@ -33,9 +33,9 @@ Ready Reckoner
 			<input
 				type = 'number'
 				class = 'hidden'
-				id = 'co2'
+				id = 'CO2'
 				onchange = 'calcPerc()'
-				placeholder = 'Co2'>
+				placeholder = 'CO<sub>2</sub>'>
 			</input>
 			<input
 				type = 'number'
@@ -61,9 +61,9 @@ Ready Reckoner
 	<div id = 'calc'>
 		<pre id = 'calc-pre'>
 	
-co2 = (String(co2/5).split('.')[0])*5
-mul = ((co2-50)/5)/4;
-a = (co2/4 + (2.5 - mul));	
+CO2 = (String(CO2/5).split('.')[0])*5
+mul = ((CO2-50)/5)/4;
+a = (CO2/4 + (2.5 - mul));	
 
 <valA></valA> rounded to <valB></valB>
 ((<valC></valC> - 50) / 5 ) / 4 = <valD></valD> 
@@ -193,7 +193,7 @@ pre#percentage
 #reload
 {
 	position:absolute;
-	bottom:10%;
+	bottom:0%;
 	left:0;
 	width:15%;
 	height:5%;
@@ -216,9 +216,9 @@ var textQstn =
 	[
 		'Is your car an all electric vehicle',
 		'Is the vehicle a Diesel',
-		'Is your diesel vehicle RDE2 (Euro 6d) compliant',		
+		'Is your diesel vehicle RDE2 complient',		
 		'Is the car registered after 06/04/2020',
-		'Is the Co2 Emessions of your car 50g/km or below',
+		'Is the CO<sub>2</sub> Emessions of your car 50g/km or below',
 		
 	];
 	
@@ -236,7 +236,7 @@ function start(bool)
 	pBin += bool ? 1 : 0;
 	/*
 	Matrix:
-	show Co2, show Elec Range, newer than 06/04/2020, diesel, rde2 deisel, electric
+	show CO2, show Elec Range, newer than 06/04/2020, diesel, rde2 deisel, electric
 	        --------------------------------------------
 	INPUT 	||  0  ||  0  ||  0  ||  0  ||  0  ||  1  ||
 			|| NUL || ELC || DSL || RDE || REG || 50G ||
@@ -267,11 +267,11 @@ function start(bool)
 
 function showSltn(b,c,d,e,f,g)
 {
-	var co2 = document.getElementById('co2'),
+	var CO2 = document.getElementById('CO2'),
 		ulev = document.getElementById('ulev'),
 		a;
 		
-	b == 1 ? co2.classList.toggle('hidden') : null;
+	b == 1 ? CO2.classList.toggle('hidden') : null;
 	c == 1 ? ulev.classList.toggle('hidden') : null;
 	d == 1 ? Apr6 = true: null;
 	e == 1 ? desl = true: null;
@@ -296,7 +296,7 @@ function showSltn(b,c,d,e,f,g)
 		txt += e ? ' Your diesel is ' : '';
 		txt += e ? f ? 'RDE2 complient' : 'RDE2 Non-complient' : '';
 		txt += '\n';
-		txt += c ? 'Enter your Electric Range' : 'Enter your Co2';
+		txt += c ? 'Enter your Electric Range' : 'Enter your CO<sub>2</sub>';
 		return txt;
 	};
 	
@@ -317,12 +317,12 @@ function nextQ(bool)
 
 function calcPerc()
 {
-	var co2 = document.getElementById('co2'),
+	var CO2 = document.getElementById('CO2'),
 		pcnt = document.getElementById('percentage'),
 		a,
 		mul;
 	
-	showListPrice(co2);	
+	showListPrice(CO2);	
 	var calc = document.querySelector('#calc-pre'),
 		valA = document.querySelector('valA'),
 		valB = document.querySelector('valB'),
@@ -334,20 +334,20 @@ function calcPerc()
 		valH = document.querySelector('valH');
 	
 	//----------------
-		valA.innerHTML = co2.value;
+		valA.innerHTML = CO2.value;
 	//----------------	
-	co2 = (String(co2.value/5).split('.')[0])*5
+	CO2 = (String(CO2.value/5).split('.')[0])*5
 	//-----------------
-		valB.innerHTML = co2;
+		valB.innerHTML = CO2;
 	//-----------------
-	mul = ((co2-50)/5)/4;
+	mul = ((CO2-50)/5)/4;
 	//-----------------	
-		valC.innerHTML = co2;
+		valC.innerHTML = CO2;
 		valD.innerHTML = mul;
 	//-----------------	
-	a = (co2/4 + (2.5 - mul));	
+	a = (CO2/4 + (2.5 - mul));	
 	//-----------------	
-		valE.innerHTML = co2;
+		valE.innerHTML = CO2;
 		valF.innerHTML = mul;
 		valG.innerHTML = a;
 	//-----------------
