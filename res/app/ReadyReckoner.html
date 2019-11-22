@@ -60,6 +60,7 @@ Ready Reckoner
 	<button id = 'viewCalc' onclick = 'viewCalc()'>View Calculation</button>
 	<div id = 'calc'>
 		<pre id = 'calc-pre'>
+	
 co2 = (String(co2/5).split('.')[0])*5
 mul = ((co2-50)/5)/4;
 a = (co2/4 + (2.5 - mul));	
@@ -74,7 +75,7 @@ Attractions and deductions:
 		</pre>
 	</div>
 </div>
-
+<button id = 'reload' onclick = 'reload()'>Reload</button>
 </body>
 <style>
 body, pre, button, input
@@ -187,6 +188,15 @@ pre#percentage
     color: #428bca;
     width: 100%;
     font-size: 5vh;
+}
+
+#reload
+{
+	position:absolute;
+	bottom:0%;
+	left:0;
+	width:15%;
+	height:2.5%;
 }
 </style>
 <script>
@@ -391,6 +401,11 @@ function listPrice(a)
 	a = list/100 * clcP;
 	
 	pcnt.innerHTML = '£' + a + ' tax value ';
+}
+
+function reload()
+{
+	location.reload();
 }
 </script>
 </html>
