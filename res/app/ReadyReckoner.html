@@ -1,5 +1,6 @@
 <html>
 <head>
+<link href="https://fonts.googleapis.com/css?family=Varela+Round:regular" rel="stylesheet" type="text/css">
 </head>
 <title>
 Ready Reckoner
@@ -7,7 +8,7 @@ Ready Reckoner
 <body>
 <div id = 'container'>
 	<div class = 'header'>
-		<p>Quick Co2 Percentage Calculator 0.2.6</p>
+		<p>Quick Co2 Percentage Calculator 0.3.1</p>
 	</div>
 	<div class = 'app'>
 		<pre id = 'question'></pre>
@@ -44,6 +45,7 @@ Ready Reckoner
 				placeholder = 'Electric Range (Miles)'>
 			</input>
 			<input
+				disabled
 				type = 'number'
 				class = 'hidden'
 				id = 'listPrice'
@@ -52,9 +54,9 @@ Ready Reckoner
 			</input>
 		
 		</div>
-		<pre id = 'percentage'></pre>
-		<pre id = 'history'></pre>
+		<pre id = 'percentage'></pre>		
 	</div>
+	<pre id = 'history'></pre>
 	<button id = 'viewCalc' onclick = 'viewCalc()'>View Calculation</button>
 	<div id = 'calc'>
 		<pre id = 'calc-pre'>
@@ -75,249 +77,116 @@ Attractions and deductions:
 
 </body>
 <style>
-body
+body, pre, button, input
 {
-	position:absolute;
-	width:100%;
-	max-width:100vh;
-	height:100%;
-	margin:0;
-	top:0;
-	left:50%;
-	overflow:hidden;
-	transform:translate(-50%,0);
-}
-
-button:hover, button:focus
-{
-	outline:none;
-}
-
-#container
-{
-	height:100%;
+	font-family: 'Varela Round';
+	color: #888888;
 }
 
 .header
 {
-	position:absolute;
-	top:15%;
-	width:100%;
-	height:5vh;
-	font-size:2vh;
-	z-index:3;
+	font-weight: bold;
 }
 
-p, pre
+button
 {
-	width:100%;
-	text-align:center;
+	background: #3B81BD;
+	border:none;
 	color:#fff;
 }
 
-#prof {
-    color: #3baa50;
-    text-align: left;
-    font-size: 1.5vh;
-    font-weight: 100;
-}
-
-#vehicleProfile {
-    position: absolute;
-    top: 70%;
-    width: 95%;
-    height: 25%;
-    left: 2.5%;
-    border-bottom-right-radius: 2.5vh;
-    border-bottom-left-radius: 2.5vh;
-}
-
-p
+.app button
 {
-	font-family:arial;
-	margin:0;
-	line-height:0%;
-	position:absolute;
-	top:50%;
-}
-
-pre
-{
-	color:#3d7faf;
-	font-weight:700;
-	font-size:2vh;
-	margin:0;
-}
-
-pre#history {
-    text-align: left;
-    position: absolute;
-    top: 60%;
-    left: 5%;
-	font-weight:100;
-	font-size:1.5vh;
-}
-
-#question
-{
-    width: 100%;
-	position:absolute;
-	top:10%;
+	width:25vh;
+	height:5vh;
+	top:5vh;
+	
 }
 
 .app
 {
-	background-color:#fff;
-	border:solid 0.5vh #3d7faf;
-	border-top:solid 5vh #3d7faf;
-	border-radius:5vh;
-	box-sizing:border-box;
 	position:absolute;
-	width:100%;
+	top:10%;
 	left:0;
-	top:15%;
-	height:50%;
-	transition:1s;
-	overflow:hidden;
-}
-
-.button
-{
-	position:relative;
-	background:#f00;
-	border:none;
-	width:25%;
-	height:5vh;
-	left:50%;
-	transform:translate(-100%,0);
-	color:#fff;
-	border-radius:1vh;
-	top:10vh;
-	transition:0.1s;
-	box-shadow:0.0vh 0.0vh 0vh #aaa;
-}
-
-.button:hover
-{
-	filter:contrast(2);
-	box-shadow:0.1vh 0.3vh 0vh #aaa;
-}
-
-.button:active
-{
-	filter:contrast(1.5);
-	box-shadow:0.1vh 0.2vh 0vh #aaa;
-}
-
-.button:focus
-{
-	outline:none;
-	box-shadow:0.1vh 0.5vh 0vh #aaa;
-}
-
-#boolFalse_1
-{
-	background:#C43838;
-}
-
-#boolTrue_1
-{
-	background:#3BAA50;
-}
-
-#quickCal
-{
-	position:absolute;
-	top:25%;
-	left:50%;
-	transform:translate(-50%,0);
+	width:100%;
+	text-align:center;
 }
 
 input
 {
-	border:solid 0.2vh #3d7faf;
-	padding:1vh;
-	text-align:center;
-	border-radius:1vh;
-	font-size:4vh;
-	width:10vw;
-	transition:0.3s;
+	outline-style: solid;
+	outline-color: #e8f4ff;
+	outline-width: 0.5vh;
+	border: solid 1px #8c8c8c;
+	padding:0.5vh;
+	box-shadow: rgba(0,0,0,0.3) 0 0.1vh 0.2vh inset;
+	width:25vh;
+	height:5vh;
+	top:10vh;
+	left:50%;
+	transform:translate(-50%);
 	position:absolute;
-	transform: translate(-50%,00);
 }
 
-#ulev, #listPrice
+#history
 {
-	font-size:1.5vh;
-}
-
-input:focus
-{
-	outline:none;
-}
-
-pre#solution {
-    position: absolute;
-    top: 10%;
-}
-
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button
-{ 
-  -webkit-appearance: none; 
-  margin: 0; 
-}
-
-#percentage
-{
-    position: absolute;
-    top: 45%;
-	margin:0;
-    font-size: 5vh;
-    line-height: 0;
-    padding: 0;
+	text-align:left;
+	position:absolute;
+	top:25%;
 }
 
 .hidden
 {
-    opacity: 0;
-    width: 0;
-	height:0;
-    border: none;
-    transition: 0.4s;
+	font-size:0vh;
+	transition:0.2s;
+	padding:0;
+	border:0;
+	outline:none;
+	height:0vh !IMPORTANT;
 }
 
-button#viewCalc:hover {
-    border-radius: 1vh;
-}
-button#viewCalc {
-    position: absolute;
-    top: 60%;
-    width: 10%;
-    left: 90%;
-    transform: translate(-50%);
-    background: #fff;
-    transition: 0.2s;
-    border: solid 0.2vh #3d7faf;
-}
-
-pre#calc-pre
+#calc-pre
 {
-    font-weight: 100;
-    font-size: 1.4vh;
-    text-align: left;
-    color: #000;
-    position: absolute;
-    top: 20%;
-    left: 50%;
-    margin-left: 1%;
-	z-index:-1;
-	transition:0.1s;
+	font-size:0vh;
+	transition:0.2s;
+	position:absolute;
+	background:#fff;
+	top:-1vh;
+	left:50%;
+	transform:translate(-50%);
+	outline: solid 0.0vh #888888;
+	margin:0;
+	padding:1vh;
+	width:50%;
+	height:auto;
+	max-height:0vh;
 }
 
-pre#calc-pre.show
+#calc-pre.show
 {
-	left: 100%;
+	font-size:1.5vh;
+	transition:0.2s;
+	outline: solid 0.1vh #888888;
+	max-height:100vh;
+	top:-0vh;
+}
+
+#viewCalc
+{
+	position:absolute;
+	right:0;
+	width:10%;
+	top:0;
+}
+
+pre#percentage
+{
+    position: absolute;
+    top: 30vh;
+    font-weight: bold;
+    color: #428bca;
+    width: 100%;
+    font-size: 5vh;
 }
 </style>
 <script>
@@ -330,7 +199,8 @@ var qstn = document.getElementById('question'),
 	rde2 = false,
 	desl = false,
 	elec = false,
-	qNum = 0;
+	qNum = 0,
+	clcP;
 
 var textQstn = 
 	[
@@ -476,7 +346,7 @@ function calcPerc()
 	rde2 ? (a = (a - 4), valH.innerHTML = 'RDE2 diesel, no attraction') : valH.innerHTML = 'None';	
 	
 	pcnt.innerHTML = a + '%';
-	
+	clcP = a;
 }
 
 function calcUlev()
@@ -496,7 +366,7 @@ function calcUlev()
 	rde2 ? a = (a - 4) : null;
 	
 	pcnt.innerHTML = a + '%';
-	
+	clcP = a;	
 }
 
 function viewCalc()
@@ -512,9 +382,15 @@ function showListPrice(hide)
 	prce.classList.toggle('hidden');
 }
 
-function listPrice()
+function listPrice(a)
 {
+	var list = document.getElementById('listPrice').value,
+		pcnt = document.getElementById('percentage'),
+		emote;
 	
+	a = list/100 * clcP;
+	
+	pcnt.innerHTML = '£' + a + ' tax value ';
 }
 </script>
 </html>
