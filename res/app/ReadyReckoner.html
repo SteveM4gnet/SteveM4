@@ -8,7 +8,7 @@ Ready Reckoner
 <body>
 <div id = 'container'>
 	<div class = 'header'>
-		<p>Quick CO<sub>2</sub> Percentage Calculator 0.3.2</p>
+		<p>Quick CO<sub>2</sub> Percentage Calculator 0.3.7</p>
 	</div>
 	<div class = 'app'>
 		<pre id = 'question'></pre>
@@ -35,7 +35,7 @@ Ready Reckoner
 				class = 'hidden'
 				id = 'CO2'
 				onchange = 'calcPerc()'
-				placeholder = 'CO2>'>
+				placeholder = 'CO2'>
 			</input>
 			<input
 				type = 'number'
@@ -47,7 +47,7 @@ Ready Reckoner
 			<input
 				disabled
 				type = 'number'
-				class = 'hidden'
+				class = 'hidden display-none'
 				id = 'listPrice'
 				onchange = 'listPrice()'
 				placeholder = 'List price of car'>
@@ -178,6 +178,8 @@ input
 	right:0;
 	width:10%;
 	top:0;
+	height:5vh;
+	font-size:1vh;
 }
 
 pre#percentage
@@ -198,6 +200,11 @@ pre#percentage
 	width:15%;
 	height:5%;
 }
+
+.display-none
+{
+	display:none;
+}
 </style>
 <script>
 var qstn = document.getElementById('question'),
@@ -216,9 +223,9 @@ var textQstn =
 	[
 		'Is your car an all electric vehicle',
 		'Is the vehicle a Diesel',
-		'Is your diesel vehicle RDE2 (Euro 6) compliant',		
+		'Is your diesel vehicle Euro 6D (RDE2) complient',		
 		'Is the car registered after 06/04/2020',
-		'Is the CO<sub>2</sub> Emissions of your car 50g/km or below',
+		'Is the CO<sub>2</sub> Emessions of your car 50g/km or below',
 		
 	];
 	
@@ -230,13 +237,10 @@ window.onload = function()
 
 function start(bool)
 {
-	qstn.innerHTML = textQstn[qNum] + '?';
-	hist.innerHTML += textQstn[qNum] + '? : ';
-
 	pBin += bool ? 1 : 0;
 	/*
 	Matrix:
-	show CO2, show Elec Range, newer than 06/04/2020, diesel, rde2 deisel, electric
+	show CO2, show Elec Range, newer than 06/04/2020, diesel, rde2 diesel, electric
 	        --------------------------------------------
 	INPUT 	||  0  ||  0  ||  0  ||  0  ||  0  ||  1  ||
 			|| NUL || ELC || DSL || RDE || REG || 50G ||
@@ -247,7 +251,7 @@ function start(bool)
 	*/
 	
 	pBin == '01'		? showSltn(0, 0, 0, 0, 0, 1) :	
-	pBin == '000'		? nextQ():
+	pBin == '000'		? (qNum++, pBin += 0):
 	pBin == '000000'	? showSltn(1, 0, 0, 0, 0, 0) :
 	pBin == '000001'	? showSltn(0, 1, 0, 0, 0, 0) :
 	pBin == '000010'	? showSltn(1, 0, 1, 0, 0, 0) :
@@ -260,7 +264,16 @@ function start(bool)
 	pBin ==	'001100'	? showSltn(1, 0, 0, 1, 1, 0) :
 	pBin ==	'001101'	? showSltn(0, 1, 0, 1, 1, 0) :
 	pBin == '001110'	? showSltn(1, 0, 1, 1, 1, 0) :	null;	
-	console.log(pBin);		
+	console.log(pBin);
+	
+	qstn.innerHTML = textQstn[qNum] + '?';
+	if (textQstn[qNum])
+	{
+		if (!elec)
+		{
+		hist.innerHTML += 'Q: ' + textQstn[qNum] + '?' + '\n' + 'A: ';
+		}
+	}
 	
 	qNum > 4 ? qNum = 0 : null;
 }
@@ -289,12 +302,17 @@ function showSltn(b,c,d,e,f,g)
 			return txt;
 		};
 		
-		txt += e ? ' diesel (D)' : ' hybrid, petrol or other kind (A/F) of';
-		txt += ' car registered '
+		txt += e ? ' diesel (D)' : ' hybrid, petrol or other (A/F) rated';
+		txt += ' car, registered '
 		txt += !d ? 'before' : 'after';
-		txt += ' 06/04/2020.'
+		txt += ' 06/04/2020.'; 
+		txt += '\n';
+		txt += 'The vehicle has ';
+		txt += c ? 	'a CO<sub>2</sub> value under 50g/km ' : 
+					'a CO<sub>2</sub> emession of over 50g/km.';
+		txt += '\n';
 		txt += e ? ' Your diesel is ' : '';
-		txt += e ? f ? 'RDE2 complient' : 'RDE2 Non-complient' : '';
+		txt += e ? f ? 'Euro 6D (RDE2) complient.' : 'not Euro 6D (RDE2) complient.' : '';
 		txt += '\n';
 		txt += c ? 'Enter your Electric Range' : 'Enter your CO<sub>2</sub>';
 		return txt;
@@ -387,9 +405,9 @@ function viewCalc()
 
 function showListPrice(hide)
 {
-	var prce = document.getElementById('listPrice');
-	hide.classList.toggle('hidden');
-	prce.classList.toggle('hidden');
+	<!-- var prce = document.getElementById('listPrice'); -->
+	<!-- hide.classList.toggle('hidden'); -->
+	<!-- prce.classList.toggle('hidden'); -->
 }
 
 function listPrice(a)
