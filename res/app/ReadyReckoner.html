@@ -8,7 +8,7 @@ Ready Reckoner
 <body>
 <div id = 'container'>
 	<div class = 'header'>
-		<p>Quick CO<sub>2</sub> Percentage Calculator 0.3.9</p>
+		<p>Quick CO<sub>2</sub> Percentage Calculator 0.3.14</p>
 	</div>
 	<div class = 'app'>
 		<pre id = 'question'></pre>
@@ -34,14 +34,12 @@ Ready Reckoner
 				type = 'number'
 				class = 'hidden'
 				id = 'CO2'
-				onchange = 'calcPerc()'
 				placeholder = 'CO2'>
 			</input>
 			<input
 				type = 'number'
 				class = 'hidden'
 				id = 'ulev'
-				onchange = 'calcUlev()'
 				placeholder = 'Electric Range (Miles)'>
 			</input>
 			<input
@@ -52,12 +50,14 @@ Ready Reckoner
 				onchange = 'listPrice()'
 				placeholder = 'List price of car'>
 			</input>
+			<button id = 'submit' onclick = 'percSubmit()' class = 'hidden'>Submit</button>
 		
 		</div>
-		<pre id = 'percentage'></pre>		
+	
 	</div>
+	<pre id = 'percentage'></pre>		
 	<pre id = 'history' class = 'hidden'></pre>
-	<button id = 'viewCalc' onclick = 'viewCalc()'>View Calculation</button>
+	<button id = 'viewCalc' onclick = 'viewCalc()' class = 'hidden'>View Calculation</button>
 	<div id = 'calc'>
 		<pre id = 'calc-pre'>
 	
@@ -75,7 +75,7 @@ Attractions and deductions:
 		</pre>
 	</div>
 </div>
-<button id = 'reload' onclick = 'reload()'>Reload</button>
+<button id = 'reload' onclick = 'reload()'>Start Again</button>
 </body>
 <style>
 body, pre, button, input
@@ -98,8 +98,8 @@ button
 
 .app button
 {
-	width:25vh;
-	height:5vh;
+	width:35vh;
+	height:7.5vh;
 	top:5vh;
 	
 }
@@ -119,14 +119,16 @@ input
 	outline-color: #e8f4ff;
 	outline-width: 0.5vh;
 	border: solid 1px #8c8c8c;
-	padding:0.5vh;
+	padding:3vh;
 	box-shadow: rgba(0,0,0,0.3) 0 0.1vh 0.2vh inset;
-	width:25vh;
-	height:5vh;
+	width:35vh;
+	height:10vh;
 	top:100%;
-	left:50%;
+	left:50vw;
 	transform:translate(-50%);
 	position:absolute;
+	font-size:5vh;
+	text-align:center;
 }
 
 #history
@@ -172,38 +174,40 @@ input
 	top:-0vh;
 }
 
-#viewCalc
+#viewCalc, #reload
 {
 	position:absolute;
 	right:0;
-	width:10%;
+	width:20%;
 	top:0;
-	height:5vh;
-	font-size:1vh;
+	height:10vh;
+	font-size:3vh;
 }
 
 pre#percentage
 {
     position: absolute;
-    top: 30vh;
+    bottom: 15vh;
     font-weight: bold;
     color: #428bca;
-    width: 100%;
     font-size: 5vh;
+    left: 50%;
+    transform: translate(-50%);
 }
-
-#reload
-{
-	position:absolute;
-	bottom:0%;
-	left:0;
-	width:15%;
-	height:5%;
-}
-
 .display-none
 {
 	display:none;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+#submit
+{
+
 }
 </style>
 <script>
@@ -216,6 +220,7 @@ var qstn = document.getElementById('question'),
 	rde2 = false,
 	desl = false,
 	elec = false,
+	rnge = false,
 	qNum = 0,
 	clcP;
 
@@ -282,10 +287,13 @@ function showSltn(b,c,d,e,f,g)
 {
 	var CO2 = document.getElementById('CO2'),
 		ulev = document.getElementById('ulev'),
+		subm = document.getElementById('submit'),
 		a;
 		
 	b == 1 ? CO2.classList.toggle('hidden') : null;
 	c == 1 ? ulev.classList.toggle('hidden') : null;
+	subm.classList.toggle('hidden');
+	rnge = c == 1 ? true: false; 
 	d == 1 ? Apr6 = true: null;
 	e == 1 ? desl = true: null;
 	f == 1 ? rde2 = true: null;
@@ -424,6 +432,11 @@ function listPrice(a)
 function reload()
 {
 	location.reload();
+}
+
+function percSubmit()
+{
+	rnge ? calcUlev() : calcPerc();
 }
 </script>
 </html>
