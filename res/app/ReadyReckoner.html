@@ -213,7 +213,6 @@ input
     bottom: 15vh;
     font-weight: bold;
     color: #428bca;
-    font-size: 5vh;
     left: 50%;
     transform: translate(-50%);
 	text-align: center;
@@ -389,12 +388,10 @@ function calcPerc()
 		if (!sure)
 		{
 			pcnt.innerHTML =
-			'That value seems pretty high and may be incorrect, if the value is correct, please click \'Submit\' again.';
-			pcnt.style.fontSize = '3vh';
+			'That value seems pretty high and may be incorrect, if the value is correct, please click \'Start Again\'.';
 			sure = true
 			return;
 		}
-		pcnt.style.fontSize = '5vh';
 	
 	}
 	
@@ -408,12 +405,12 @@ function calcPerc()
 	desl ? (a = (a + 4)) : null;	
 	rde2 ? (a = (a - 4)) : null;	
 	
-	pcnt.innerHTML = '<pre style = "font-size:3vh">The appropriate percentage for Tax calculations purposes for the 2020/2021 tax year is...</pre>' + '\n' + '\n';
+	pcnt.innerHTML = '<pre>The appropriate percentage for Tax calculations purposes for the 2020/2021 tax year is...</pre>' + '\n' + '\n';
 	
 	pcnt.innerHTML += a + '%';
 	if (a > 100)
 	{	
-		pcnt.innerHTML += '\n' + '<pre style = "font-size:3vh">You have achieved a tax percantage over 100%, please review your figure and try again</pre>';
+		pcnt.innerHTML += '\n' + '<pre>You have achieved a tax percantage over 100%, please review your figure and try again</pre>';
 	}
 	clcP = a;
 }
@@ -440,7 +437,7 @@ function calcUlev()
 	desl ? a = (a + 4) : null;
 	rde2 ? a = (a - 4) : null;
 	
-	pcnt.innerHTML = '<pre style = "font-size:3vh">The appropriate percentage for Tax calculations purposes for the 2020/2021 tax year is...</pre>' + '\n' + '\n';
+	pcnt.innerHTML = '<pre>The appropriate percentage for Tax calculations purposes for the 2020/2021 tax year is...</pre>' + '\n' + '\n';
 	
 	pcnt.innerHTML += a + '%';
 	clcP = a;	
