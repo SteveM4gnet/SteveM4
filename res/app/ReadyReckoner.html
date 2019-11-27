@@ -329,7 +329,7 @@ function showSltn(b,c,d,e,f,g)
 	sltn.innerHTML = buildSltn(b,c,d,e,f);
 	function buildSltn(b,c,d,e,f)
 	{
-		var txt = 'You have a'
+		var txt = 'You have indicated that the'
 		
 		if (g)
 		{
@@ -339,8 +339,8 @@ function showSltn(b,c,d,e,f,g)
 			return txt;
 		};
 		
-		txt += e ? ' diesel (D)' : ' hybrid, petrol or other (A/F) rated';
-		txt += ' car, registered '
+		txt += e ? ' car is a diesel (D)' : ' car is not a diesel or solely diesel powered vehicle';
+		txt += ' , and was registered '
 		txt += !d ? 'before' : 'after';
 		txt += ' 06/04/2020.'; 
 		txt += '\n';
