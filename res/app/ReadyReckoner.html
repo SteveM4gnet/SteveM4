@@ -8,7 +8,7 @@ Ready Reckoner
 <body>
 <div id = 'container'>
 	<div class = 'header'>
-		<p>Quick CO<sub>2</sub> Percentage Calculator 0.3.14</p>
+		<p>Quick CO<sub>2</sub> Percentage Calculator 0.3.16</p>
 	</div>
 	<div class = 'app'>
 		<pre id = 'question'></pre>
@@ -335,6 +335,8 @@ function showSltn(b,c,d,e,f,g)
 		if (g)
 		{
 			txt += 'n all electric vehicle';
+			var pcnt = document.getElementById('percentage');
+			pcnt.innerHTML = '<pre style = "font-size:3vh">The appropriate percentage for Tax calculations purposes for the 2020/2021 tax year is...</pre>' + '\n' + '\n' + '0%!';
 			return txt;
 		};
 		
@@ -475,6 +477,13 @@ function reload()
 
 function percSubmit()
 {
+	var CO2 = document.getElementById('CO2'),
+		ulev = document.getElementById('ulev'),
+		subm = document.getElementById('submit');
+	
+	if (CO2.classList != 'hidden') CO2.classList.toggle('hidden');
+	if (ulev.classList != 'hidden') ulev.classList.toggle('hidden');
+	if (subm.classList != 'hidden') subm.classList.toggle('hidden');
 	rnge ? calcUlev() : calcPerc();
 }
 </script>
