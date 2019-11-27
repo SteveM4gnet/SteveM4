@@ -97,6 +97,11 @@ button
 	color:#fff;
 }
 
+button:hover
+{
+	cursor:pointer;
+}
+
 .app button
 {
 	width:35vh;
@@ -114,7 +119,8 @@ button
 	text-align:center;
 }
 
-div#quickCal {
+#quickCal
+{
     position: absolute;
     height: 100%;
     top: 50%;
@@ -138,8 +144,8 @@ input
 	text-align:center;
 }
 
-#submit {
-
+#submit
+{
     width: 35vh;
     height: 10vh;
     top: 90%;
@@ -201,7 +207,7 @@ input
 	font-size:3vh;
 }
 
-pre#percentage
+#percentage
 {
     position: absolute;
     bottom: 15vh;
@@ -210,16 +216,20 @@ pre#percentage
     font-size: 5vh;
     left: 50%;
     transform: translate(-50%);
+	text-align: center;
+	margin: 0;
 }
+
 .display-none
 {
 	display:none;
 }
 
 input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
-  margin: 0; 
+input[type=number]::-webkit-outer-spin-button
+{ 
+	-webkit-appearance: none;
+	margin: 0;
 }
 
 #submit
@@ -238,13 +248,14 @@ var qstn = document.getElementById('question'),
 	desl = false,
 	elec = false,
 	rnge = false,
+	sure = false,
 	qNum = 0,
 	clcP;
 
 var textQstn = 
 	[
 		'Is your car an all electric vehicle',
-		'Is the vehicle a Diesel',
+		'Does the vehicle have a diesel powered engine',
 		'Is your diesel vehicle Euro 6D (RDE2) compliant',		
 		'Is the car registered after 06/04/2020',
 		'Is the CO<sub>2</sub> Emissions of your car 50g/km or below',
@@ -336,7 +347,7 @@ function showSltn(b,c,d,e,f,g)
 		txt += c ? 	'a CO<sub>2</sub> value under 50g/km ' : 
 					'a CO<sub>2</sub> emission of over 50g/km.';
 		txt += '\n';
-		txt += e ? ' Your diesel is ' : '';
+		txt += e ? ' The vehicle is ' : '';
 		txt += e ? f ? 'Euro 6D (RDE2) compliant.' : 'not Euro 6D (RDE2) compliant.' : '';
 		txt += '\n';
 		txt += c ? 'Enter your Electric Range' : 'Enter your CO<sub>2</sub>';
@@ -365,40 +376,43 @@ function calcPerc()
 		a,
 		mul;
 	
+	if (CO2.value == '')
+	{
+		pcnt.innerHTML = 'Please enter a value.';
+		return;
+	}
+	
+	if (CO2.value > 200)
+	{
+		if (!sure)
+		{
+			pcnt.innerHTML =
+			'That value seems pretty high and may be incorrect, if the value is correct, please click \'Submit\' again.';
+			pcnt.style.fontSize = '3vh';
+			sure = true
+			return;
+		}
+		pcnt.style.fontSize = '5vh';
+	
+	}
+	
 	showListPrice(CO2);	
-	var calc = document.querySelector('#calc-pre'),
-		valA = document.querySelector('valA'),
-		valB = document.querySelector('valB'),
-		valC = document.querySelector('valC'),
-		valD = document.querySelector('valD'),
-		valE = document.querySelector('valE'),
-		valF = document.querySelector('valF'),
-		valG = document.querySelector('valG'),
-		valH = document.querySelector('valH');
 	
-	//----------------
-		valA.innerHTML = CO2.value;
-	//----------------	
 	CO2 = (String(CO2.value/5).split('.')[0])*5
-	//-----------------
-		valB.innerHTML = CO2;
-	//-----------------
 	mul = ((CO2-50)/5)/4;
-	//-----------------	
-		valC.innerHTML = CO2;
-		valD.innerHTML = mul;
-	//-----------------	
 	a = (CO2/4 + (2.5 - mul));	
-	//-----------------	
-		valE.innerHTML = CO2;
-		valF.innerHTML = mul;
-		valG.innerHTML = a;
-	//-----------------
-	Apr6 ? (a = (a - 2), valH.innerHTML = 'New car, -2%') : valH.innerHTML = 'None';	
-	desl ? (a = (a + 4), valH.innerHTML = 'Diesel, +4%') : valH.innerHTML = 'None';	
-	rde2 ? (a = (a - 4), valH.innerHTML = 'RDE2 diesel, no attraction') : valH.innerHTML = 'None';	
 	
-	pcnt.innerHTML = a + '%';
+	Apr6 ? (a = (a - 2)) : null;	
+	desl ? (a = (a + 4)) : null;	
+	rde2 ? (a = (a - 4)) : null;	
+	
+	pcnt.innerHTML = '<pre style = "font-size:3vh">The appropriate percentage for Tax calculations purposes for the 2020/2021 tax year is...</pre>' + '\n' + '\n';
+	
+	pcnt.innerHTML += a + '%';
+	if (a > 100)
+	{	
+		pcnt.innerHTML += '\n' + '<pre style = "font-size:3vh">You have achieved a tax percantage over 100%, please review your figure and try again</pre>';
+	}
 	clcP = a;
 }
 
@@ -406,6 +420,12 @@ function calcUlev()
 {
 	var ulev = document.getElementById('ulev'),
 		pcnt = document.getElementById('percentage');
+	
+	if (ulev.value == '')
+	{
+		pcnt.innerHTML = 'Please enter a value.';
+		return;
+	}
 	
 	showListPrice(ulev);	
 	ulev.value < 30 ? a = 14 :
@@ -418,7 +438,9 @@ function calcUlev()
 	desl ? a = (a + 4) : null;
 	rde2 ? a = (a - 4) : null;
 	
-	pcnt.innerHTML = a + '%';
+	pcnt.innerHTML = '<pre style = "font-size:3vh">The appropriate percentage for Tax calculations purposes for the 2020/2021 tax year is...</pre>' + '\n' + '\n';
+	
+	pcnt.innerHTML += a + '%';
 	clcP = a;	
 }
 
