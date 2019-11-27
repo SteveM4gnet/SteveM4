@@ -10,9 +10,9 @@ Ready Reckoner
 	<div class = 'header'>
 		<p>Quick CO<sub>2</sub> Percentage Calculator 0.3.19</p>
 	</div>
+	
 	<div class = 'app'>
 		<pre id = 'question'></pre>
-
 		<button
 			class = 'button'
 			id = 'boolTrue_1'
@@ -92,6 +92,7 @@ body, pre, button, input
 
 button
 {
+	position:relative;
 	background: #3B81BD;
 	border:none;
 	color:#fff;
@@ -106,7 +107,7 @@ button:hover
 {
 	width:35vh;
 	height:7.5vh;
-	top:5vh;
+	top:10vh;
 	
 }
 
@@ -207,7 +208,12 @@ input
 	font-size:3vh;
 }
 
-#percentage
+#question
+{
+	top:20%;
+}
+
+#percentage, #question
 {
     position: absolute;
     bottom: 15vh;
@@ -333,7 +339,7 @@ function showSltn(b,c,d,e,f,g)
 		
 		if (g)
 		{
-			txt += 'n all electric vehicle';
+			txt += ' vehicle is soleley electric';
 			var pcnt = document.getElementById('percentage');
 			pcnt.innerHTML = '<pre style = "font-size:3vh">The appropriate percentage for Tax calculations purposes for the 2020/2021 tax year is...</pre>' + '\n' + '\n' + '0%!';
 			return txt;
