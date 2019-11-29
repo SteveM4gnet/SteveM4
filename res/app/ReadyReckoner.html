@@ -412,7 +412,7 @@ function calcPerc()
 	rde2 ? (a = (a - 4)) : null;	
 	
 	pcnt.innerHTML = '<pre>The appropriate percentage for Tax calculations purposes for the 2020/2021 tax year is...</pre>' + '\n' + '\n';
-	
+	if (a > 37) a = 37;
 	pcnt.innerHTML += a + '%';
 	if (a > 100)
 	{	
