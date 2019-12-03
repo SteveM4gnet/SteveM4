@@ -494,6 +494,11 @@ function percSubmit()
 	if (CO2.classList != 'hidden') CO2.classList.toggle('hidden');
 	if (ulev.classList != 'hidden') ulev.classList.toggle('hidden');
 	if (subm.classList != 'hidden') subm.classList.toggle('hidden');
+	if (CO2.value < 50)
+	{
+		ulev.classList.toggle('hidden');
+		subm.classList.toggle('hidden');
+	}
 	rnge ? calcUlev() : calcPerc();
 }
 </script>
