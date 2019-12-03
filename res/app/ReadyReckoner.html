@@ -446,11 +446,13 @@ function calcUlev()
 	ulev.value < 129 ? a  = 5 :
 	ulev.value > 130 ? a = 2 : a = 0 ;
 	
-	Apr6 ? a = (a - 2) : null;
+	//Apr6 ? a = (a - 2) : null;
 	desl ? a = (a + 4) : null;
 	rde2 ? a = (a - 4) : null;
 	
 	pcnt.innerHTML = '<pre>The appropriate percentage for Tax calculations purposes for the 2020/2021 tax year is...</pre>' + '\n' + '\n';
+	
+	if (a < 0) a = 0;
 	
 	pcnt.innerHTML += a + '%';
 	clcP = a;	
