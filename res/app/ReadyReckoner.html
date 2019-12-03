@@ -273,7 +273,7 @@ window.onload = function()
 	start(bool);
 }
 
-function start(bool)
+function start(bool,pBin)
 {
 	pBin += bool ? 1 : 0;
 	/*
@@ -498,6 +498,7 @@ function percSubmit()
 	{
 		ulev.classList.toggle('hidden');
 		subm.classList.toggle('hidden');
+		start(null,pBin);
 	}
 	rnge ? calcUlev() : calcPerc();
 }
