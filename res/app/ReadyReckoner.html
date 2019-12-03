@@ -281,11 +281,11 @@ function start(bool)
 	show CO2, show Elec Range, newer than 06/04/2020, diesel, rde2 diesel, electric
 	        --------------------------------------------
 	INPUT 	||  0  ||  0  ||  0  ||  0  ||  0  ||  1  ||
-			|| NUL || ELC || DSL || RDE || REG || 50G ||
-			|| --- || --- || --- || --- || --- || --- ||
+		|| NUL || ELC || DSL || RDE || REG || 50G ||
+		|| --- || --- || --- || --- || --- || --- ||
 	BINARY 	||  0  ||  1  ||  0  ||  0  ||  0  ||  0  ||
-			|| CO2 || RNG || NEW || DSL || RDE || ELC ||
-			--------------------------------------------
+		|| CO2 || RNG || NEW || DSL || RDE || ELC ||
+		--------------------------------------------
 	*/
 	
 	pBin == '01'		? showSltn(0, 0, 0, 0, 0, 1) :	
@@ -298,7 +298,7 @@ function start(bool)
 	pBin == '001010'	? showSltn(1, 0, 1, 1, 0, 0) :
 	pBin == '001001'	? showSltn(0, 1, 0, 1, 0, 0) :
 	pBin == '001011'	? showSltn(0, 1, 1, 1, 0, 0) :
-	pBin ==	'001111'	? showSltn(1, 0, 1, 1, 1, 0) :
+	pBin ==	'001111'	? showSltn(0, 1, 1, 1, 1, 0) :
 	pBin ==	'001100'	? showSltn(1, 0, 0, 1, 1, 0) :
 	pBin ==	'001101'	? showSltn(0, 1, 0, 1, 1, 0) :
 	pBin == '001110'	? showSltn(1, 0, 1, 1, 1, 0) :	null;	
