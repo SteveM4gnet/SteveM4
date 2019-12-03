@@ -383,6 +383,13 @@ function calcPerc()
 		a,
 		mul;
 	
+	if (CO2 < 50)
+	{
+		var ulev = document.getElementById('ulev');
+		c == 1 ? ulev.classList.toggle('hidden') : null;
+		return;
+	}
+	
 	if (CO2.value == '')
 	{
 		pcnt.innerHTML = 'Please enter a value.';
