@@ -441,9 +441,9 @@ function calcUlev()
 	
 	showListPrice(ulev);	
 	ulev.value < 30 ? a = 14 :
-	ulev.value < 39 ? a = 12 :
-	ulev.value < 69 ? a = 8 :
-	ulev.value =< 129 ? a  = 5 :
+	ulev.value <= 39 ? a = 12 :
+	ulev.value <= 69 ? a = 8 :
+	ulev.value <= 129 ? a  = 5 :
 	ulev.value > 130 ? a = 2 : a = 0 ;
 	
 	Apr6 ? a = (a - 2) : null;
