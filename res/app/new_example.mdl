@@ -1,0 +1,338 @@
+local vec2 = require "vec2"
+local vec3 = require "vec3"
+local vehicleutil = require "vehicleutil"
+
+function data()
+return {
+	boundingInfo = {
+		bbMax = { 1, 1, 1,},
+		bbMin = { 1, 1, 1,},
+	},
+	collider = {
+		params = {},
+		transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+		type = "MESH",
+	},
+	lods = {
+		{
+			node = {
+				children = {
+					{
+						children = {
+							{
+								materials = { "vehicle/train/rocket.mtl", },
+								mesh = "vehicle/train/rocket_lod_0_body.msh",
+								transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+							},
+							{
+								animations = {
+									drive = vehicleutil.makePistonAnim(vec2.new(-4.4579, 1.0114), vec2.new(-4.4252,1.295), vec2.new(-1.4575, 1.0049))
+								},
+								materials = { "vehicle/train/rocket.mtl", },
+								mesh = "vehicle/train/rocket_lod_0_g1.msh",
+								transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+							},
+							{
+								animations = {
+								drive = vehicleutil.makeConnectingRodAnim(vec2.new(-4.4579, 1.0114), vec2.new(-4.4252,1.295), vec2.new(-1.4575, 1.0049))
+								},
+								materials = { "vehicle/train/rocket.mtl", },
+								mesh = "vehicle/train/rocket_lod_0_g2.msh",
+								transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+							},
+							{
+								materials = { "vehicle/train/rocket.mtl", },
+								mesh = "vehicle/train/rocket_lod_0_w1.msh",
+								transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+							},
+							{
+								materials = { "vehicle/train/rocket.mtl", },
+								mesh = "vehicle/train/rocket_lod_0_w2.msh",
+								transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+							},
+							
+						},
+						transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+					},
+					{
+						children = {
+							{
+								materials = { "vehicle/train/rocket.mtl", },
+								mesh = "vehicle/train/rocket_lod_0_tender.msh",
+								transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+							},
+							{
+								materials = { "vehicle/train/rocket.mtl", },
+								mesh = "vehicle/train/rocket_lod_0_w2.msh",
+								transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+							},
+							{
+								materials = { "vehicle/train/rocket.mtl", },
+								mesh = "vehicle/train/rocket_lod_0_w2.msh",
+								transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+							},							
+						},
+						transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+					},
+				},
+				transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+			},
+			static = false,
+			visiableFrom = 0,
+			visibleTo = 200,
+		},
+		{
+			node = {
+				children = {
+					{
+						children = {
+							{
+								materials = { "vehicle/train/rocket.mtl", },
+								mesh = "vehicle/train/rocket_lod_0_body.msh",
+								transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+							},
+							{
+								animations = {
+									drive = vehicleutil.makePistonAnim(vec2.new(-4.4579, 1.0114), vec2.new(-4.4252,1.295), vec2.new(-1.4575, 1.0049))
+								},
+								materials = { "vehicle/train/rocket.mtl", },
+								mesh = "vehicle/train/rocket_lod_0_g1.msh",
+								transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+							},
+							{
+								animations = {
+								drive = vehicleutil.makeConnectingRodAnim(vec2.new(-4.4579, 1.0114), vec2.new(-4.4252,1.295), vec2.new(-1.4575, 1.0049))
+								},
+								materials = { "vehicle/train/rocket.mtl", },
+								mesh = "vehicle/train/rocket_lod_0_g2.msh",
+								transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+							},
+							{
+								materials = { "vehicle/train/rocket.mtl", },
+								mesh = "vehicle/train/rocket_lod_0_w1.msh",
+								transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+							},
+							{
+								materials = { "vehicle/train/rocket.mtl", },
+								mesh = "vehicle/train/rocket_lod_0_w2.msh",
+								transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+							},
+							
+						},
+						transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+					},
+					{
+						children = {
+							{
+								materials = { "vehicle/train/rocket.mtl", },
+								mesh = "vehicle/train/rocket_lod_0_tender.msh",
+								transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+							},
+							{
+								materials = { "vehicle/train/rocket.mtl", },
+								mesh = "vehicle/train/rocket_lod_0_w2.msh",
+								transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+							},
+							{
+								materials = { "vehicle/train/rocket.mtl", },
+								mesh = "vehicle/train/rocket_lod_0_w2.msh",
+								transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+							},							
+						},
+						transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+					},
+				},
+				transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+			},
+			static = false,
+			visiableFrom = 200,
+			visibleTo = 300,
+		},
+		{
+			node = {
+				children = {
+					{
+						children = {
+							{
+								materials = { "vehicle/train/rocket.mtl", },
+								mesh = "vehicle/train/rocket_lod_0_body.msh",
+								transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+							},
+							{
+								animations = {
+									drive = vehicleutil.makePistonAnim(vec2.new(-4.4579, 1.0114), vec2.new(-4.4252,1.295), vec2.new(-1.4575, 1.0049))
+								},
+								materials = { "vehicle/train/rocket.mtl", },
+								mesh = "vehicle/train/rocket_lod_0_g1.msh",
+								transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+							},
+							{
+								animations = {
+								drive = vehicleutil.makeConnectingRodAnim(vec2.new(-4.4579, 1.0114), vec2.new(-4.4252,1.295), vec2.new(-1.4575, 1.0049))
+								},
+								materials = { "vehicle/train/rocket.mtl", },
+								mesh = "vehicle/train/rocket_lod_0_g2.msh",
+								transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+							},
+							{
+								materials = { "vehicle/train/rocket.mtl", },
+								mesh = "vehicle/train/rocket_lod_0_w1.msh",
+								transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+							},
+							{
+								materials = { "vehicle/train/rocket.mtl", },
+								mesh = "vehicle/train/rocket_lod_0_w2.msh",
+								transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+							},
+							
+						},
+						transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+					},
+					{
+						children = {
+							{
+								materials = { "vehicle/train/rocket.mtl", },
+								mesh = "vehicle/train/rocket_lod_0_tender.msh",
+								transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+							},
+							{
+								materials = { "vehicle/train/rocket.mtl", },
+								mesh = "vehicle/train/rocket_lod_0_w2.msh",
+								transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+							},
+							{
+								materials = { "vehicle/train/rocket.mtl", },
+								mesh = "vehicle/train/rocket_lod_0_w2.msh",
+								transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+							},							
+						},
+						transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+					},
+				},
+				transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+			},
+			static = false,
+			visiableFrom = 300,
+			visibleTo = 1670,
+		},
+	},
+	metadata = {
+		emission = {
+			idleEmission = -1,
+			powerEmission = -1,
+			speedEmission = -1,
+		},
+		
+		availability = {
+			yearFrom = 1829,
+			yearTo = 1863,
+		},
+		
+		cost = {
+			price = -1,
+		},
+		
+		description = {
+			description = _("Robert Stephenson's Rocket of 1829"),
+			name = _("The Rcoket"),
+		},
+		maintenance = {
+			lifespan = 29220, --days
+			runningCosts = -1,
+		},
+		particleSystem = {
+			emitters = {
+				{
+					child = 1,
+					color = { 0.3, 0.3, 0.3, },
+					frequency = 80,
+					lifeTime = 20,
+					position = { 4.3, 0, 3.8, },
+					size01 = {0.8, 10, },
+					velocity = { 0, 0, 10, },
+				},
+				{
+					child = 1,
+					color = { 0.3, 0.3, 0.3, },
+					frequency = 80,
+					lifeTime = 20,
+					position = { 4.3, 0, 3.8, },
+					size01 = {0.8, 10, },
+					velocity = { 0, 0, 10, },
+				},
+				{
+					child = 1,
+					color = { 0.3, 0.3, 0.3, },
+					frequency = 80,
+					lifeTime = 20,
+					position = { 4.3, 0, 3.8, },
+					size01 = {0.8, 10, },
+					velocity = { 0, 0, 10, },
+				},
+			},
+		},
+		railVehicle = {
+			configs = {
+				{
+					axles = {
+						"vehicle/train/rocket_lod_0_w1.msh",
+						"vehicle/train/rocket_lod_0_w2.msh",
+					},
+					axles = {
+						"vehicle/train/rocket_lod_0_w1.msh",
+						"vehicle/train/rocket_lod_0_w2.msh",
+					},
+					axles = {
+						"vehicle/train/rocket_lod_0_w1.msh",
+						"vehicle/train/rocket_lod_0_w2.msh",
+					},
+				},
+			},
+			engines = {
+				{
+					power = 98,
+					tractiveEffort = 40,
+					type = "STEAM",
+				},
+			},
+			soundSet = {
+				horn = "",
+				name = "rocket",
+			},
+			topSpeed = 	12.5, -- M/s (mph/2.237)
+			weight = 20,
+		},
+		seatProvider = {
+			crewModels = {},
+			drivingLicense = "RAIL",
+			seats = {
+				{
+					animation = "idle",
+					crew = true,
+					forward = true,
+					group = 1,
+					transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+				},
+				{
+					animation = "idle",
+					crew = true,
+					forward = true,
+					group = 1,
+					transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+				},
+			},
+		},
+		transportVehicle = {
+			carrier = "RAIL",
+			compartments = {
+				{
+					{},
+				},
+			},
+			loadSpeed = 1,
+			multipleUnitOnly = false,
+			reversible = false,
+		},
+	},
+},
+end

@@ -1,0 +1,143 @@
+<html>
+<title>
+TPF to TPF2 converter
+</title>
+<head>
+<link href="https://fonts.googleapis.com/css?family=Comfortaa&display=swap" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="../css/tpf_convert_styles.css">
+<link rel="stylesheet" type="text/css" href="../css/styles_default.css">
+</head>
+<body>
+<div id = 'profilePic'>
+	<div  id = 'aboutMeIcon'>
+		<p class = 'centered comfortaa' onclick="aboutMe()">Hi, I'm Steve</p>
+	</div>
+	<img
+		id = 'twitterIcon'
+		class = 'centered'
+		src = '../img/twitter_icon.jpg'
+		alt = 'Twitter Icon'
+	>	
+</div>
+
+<div id = 'banner'>
+	<div id = 'bannerText' class = 'centered'>
+		<p class = 'comfortaa text-centered'>Transport Fever mod converter</p>
+	</div>
+</div>
+
+<div id = 'upload' class = 'comfortaa centered'>
+<p class = 'centered comfortaa'>
+Drag file here:
+</p>
+<input
+	type = 'file'
+	id = 'mdl_file'
+	accept = 'mdl, mtl, grp, msh'
+	multiple
+	onchange = 'readFile()'
+>
+</div>
+
+<div id = 'mod_details'>
+	<div class = 'console-container'>
+		<div class = 'console collapse' onclick = 'expand("mdl")'>
+			<div>
+				<textarea id = 'display_mdl' onclick = 'saveButton()'></textarea>
+			</div>
+			<div>
+				<p>.mdl</p>
+			</div>
+		</div>
+		<div class = 'console collapse' onclick = 'expand("mtl")'>
+			<div>
+				<textarea id = 'display_mtl' onclick = 'saveButton()'></textarea>
+			</div>
+			<div>
+				<p>.mtl</p>
+			</div>
+		</div>
+		<div class = 'console collapse' onclick = 'expand("grp")'>
+			<div>
+				<textarea id = 'display_grp' onclick = 'saveButton()'></textarea>
+			</div>
+			<div>
+				<p>.grp</p>
+			</div>
+		</div>
+		<div class = 'console collapse' onclick = 'expand("stats")'>
+			<div>
+				<textarea id = 'display_stats' onclick = 'saveButton()'></textarea>
+			</div>		
+			<div>
+				<p>stats</p>
+			</div>
+		</div>
+		<div class = 'console collapse' onclick = 'expand("msh")'>
+			<div>
+				<textarea id = 'display_msh' onclick = 'saveButton()'></textarea>
+			</div>		
+			<div>
+				<p>Meshes</p>
+			</div>
+		</div>
+		<div class = 'console collapse' onclick = 'expand("animation")'>
+			<div>
+				<textarea id = 'display_animation' onclick = 'saveButton()'></textarea>
+			</div>		
+			<div>
+				<p>Animations</p>
+			</div>
+		</div>
+		<div class = 'console collapse' onclick = 'expand("children")'>
+			<div>
+				<textarea id = 'display_children' onclick = 'saveButton()'></textarea>
+			</div>		
+			<div>
+				<p>Children</p>
+			</div>
+		</div>
+		
+	</div>
+	<button id = 'closeTextarea' class = 'close' onclick = 'expand("close")'>Close</button>
+	<button id = 'saveTextarea' class = 'save' onclick = 'save()' style = 'display:none'>Save</button>
+	<div id = 'mod_dependencies' class = ''>
+	<p class = 'change'>
+	Your model file is targeting groups, this is non-standard in TpF2.
+		<p class = 'change sub'>
+			Please upload your group files to automatically parse and load the groups into you .mdl file.
+			You need to upload:
+			br53preusg3_lod_2_body.grp
+			br53preusg3_lod_2_tender.grp
+			(etc)
+			
+			When you have uploaded all the files you need, click 'append'.
+		</p>
+	Your model file is referencing animations, this is non-standard in TPF2.
+		<p class = 'change sub'>
+			Your .mdl file is looking for the following animations:
+			Drive
+			g1Drive
+			g2Drive
+			
+			These animations are found in the following .msh files:
+			lod_0_g1.msh
+			lod_0_g2.msh
+			lod_0_g3.msh
+			
+			When you have uploaded all the files you need, click 'append'.
+		</p>
+	Your model file is not referencing any materials, this is non-standard in TPF2.
+		<p class = 'change sub'>
+			This step may need to be undertaken manually, as the new standard allows 
+			the same mesh to use a different material. If you wish to use just one material file for all your meshes, please upload the file and click 'append'
+		</p>
+	</p>
+	</div>
+	<button id = 'fullScreenButton' onclick = 'fullscreen()'>Larger view</button>
+	<button id = 'guideButton' onclick = 'tpfAlert("guide",true)'>Guide</button>
+</div>
+<div id = 'alertBox' class = ''onclick = 'tpfAlert(null)'>Terrain alignment collision</div>
+</body>
+<script src = '../js/tpf_convert_script.js'></script>
+</html>

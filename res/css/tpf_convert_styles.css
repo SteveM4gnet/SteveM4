@@ -1,0 +1,277 @@
+.console
+{
+    position: relative;
+    display: inline-block;
+    background: #2A303E;
+    border: solid 0.1vh #3D4552;
+    box-sizing: border-box;
+    height: 3vh;
+    width: 5vw;
+    white-space: none;
+    float: left;
+    margin: 1%;
+    margin-top: 0;
+    margin-bottom: 0;
+    top: 50%;
+    transform: translate(0,-50%);
+    color: #fff;
+    font-size: 1.5vh;
+	transition:0.2s;
+}
+
+.embiggen
+{
+    position: absolute;
+    left: 0;
+    top: 5vh;
+    width: 98%;
+    height: 60vh;
+    transform: translate(0,0);
+    background: #222222;
+}
+
+textarea {
+    background: transparent;
+    resize: none;
+    border: none;
+    color: #fff;
+    width: 100%;
+    height: CALC(100% - 3vh);
+	padding: 1vh;
+}
+
+textarea::-webkit-scrollbar-corner {
+    background: none;
+}
+textarea::-webkit-scrollbar-thumb {
+    background: #76838C;
+    border-radius: 1vh;
+}
+textarea::-webkit-scrollbar-track {
+    background: #222;
+}
+textarea::-webkit-scrollbar {
+    width: 1vh;
+    height: 1vh;
+}
+
+.embiggen textarea {
+    font-size: 0.8rem;
+    tab-size: 4;
+    margin-top: 3vh;
+	overflow:scroll;	
+}
+
+.console p
+{
+	position:absolute;
+	text-align: center;
+	margin:0;
+    width: 100%;
+	top:50%;
+	transform:translate(0,-50%);
+	
+}
+
+.embiggen p
+{
+    position: absolute;
+	background:#2A303E;
+    top: 0;
+    height: 3vh;
+    margin: 0;
+    padding: 0;
+    left: 0;
+    width: 100%;
+    transform: translate(0,0%);
+    line-height: 3vh;
+	display:sticky;
+}
+
+.console-container
+{
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	background:#232A3A;
+	height:4vh;
+}
+
+.collapse
+{
+	overflow:hidden;
+}
+
+.collapse div
+{
+}
+.collapse textarea
+{
+	color:#aaa;
+	font-size:0.25vh;
+	overflow:hidden;
+}
+
+div#upload
+{
+    position: absolute;
+    top: 15vh;
+    width: 50%;
+	height:5vh;
+    background: #2A303E;
+	border-radius:5vh;
+	font-size:2vh;
+}
+
+#upload:hover
+{
+	cursor:pointer;
+}
+
+#upload:hover
+{
+	background:#2a587a;
+}
+
+input#mdl_file
+{
+    color: #fff;
+    font-family: comfortaa;
+    width: 100%;
+	height:100%;
+	opacity:0;
+}
+
+p.centered.comfortaa
+{
+    position: absolute;
+    color: #fff;
+    margin: 0;
+}
+
+#mod_details 
+{
+    position: absolute;
+    background: #2C3642;
+    border: solid #3D4552 0.2vh;
+    left: 10%;
+    top: 20vh;
+    width: 80%;
+    height: 75vh;
+    border-radius: 1vh;
+    z-index: 500;
+    overflow: hidden;
+	transition:0.2s;
+}
+
+#mod_details.fullscreen
+{
+	top: 0vh;
+	height: 100vh;
+	width: 100%;
+	left: 0%;
+}
+
+div#mod_dependencies
+{
+}
+
+button
+{
+	background: #2a303e;
+    color: #fff;
+    font-family: comfortaa;
+    font-size: 1.5vh;
+    height: 3vh;
+    border: solid 0.1vh #3D4552;
+	transition:0.2s;
+}
+
+button.close, button.save
+{
+    position: absolute;
+    width: 9vw;
+	left:-20%;
+	top: 66vh;
+}
+
+button.save.show
+{
+	left: 11vw;	
+}
+
+button.close.show {
+    position: absolute;
+    top: 66vh;
+    left: 1vw;
+	transition:0.2s;
+}
+
+button.close.show.fullscreen,
+button.save.show.fullscreen
+{
+    top: 90vh;
+}
+
+.collapse:hover, button:hover
+{
+	background: #829BAF;
+	cursor:pointer;
+}
+
+.console.embiggen.fullscreen {
+    height: 85vh;
+}
+
+button#fullScreenButton, #guideButton
+{
+    position: absolute;
+    bottom: 1vh;
+    right: 1vh;
+}
+
+#guideButton
+{
+	left: 1vh;
+}
+
+div#alertBox
+{
+    position: absolute;
+    top: -20%;
+    background: #C12914;
+    z-index: 1000;
+    color: #fff;
+    width: 50%;
+    padding: 1vh;
+    left: 25%;
+    font-size: 2vh;
+    transition: 0.3s;
+    white-space: pre-wrap;
+    cursor: not-allowed;
+}
+
+div#alertBox.nice
+{
+	background: #14c149;
+	width: 75%;
+	 left: 12.5%;
+	cursor: help;
+}
+
+#alertBox.show
+{
+	top: 0;
+}
+
+div#mod_dependencies {
+    color: #fff;
+    font-size: 1.5vh;
+    position: absolute;
+    top: 5%;
+    width: 90%;
+    left: 5%;
+    white-space: pre-wrap;
+	display:none;
+}
