@@ -8,7 +8,7 @@ Ready Reckoner
 <body>
 <div id = 'container'>
 	<div class = 'header'>
-		<p>Quick CO<sub>2</sub> Percentage Calculator 0.3.19</p>
+		<p>Quick CO<sub>2</sub> Percentage Calculator 0.4.0</p>
 	</div>
 	
 	<div class = 'app'>
@@ -57,22 +57,10 @@ Ready Reckoner
 	
 	</div>
 	<pre id = 'percentage'></pre>		
-	<pre id = 'history' class = 'hidden'></pre>
+	<pre id = 'history' class = ''></pre>
 	<button id = 'viewCalc' onclick = 'viewCalc()' class = 'hidden'>View Calculation</button>
 	<div id = 'calc'>
-		<pre id = 'calc-pre'>
-	
-CO2 = (String(CO2/5).split('.')[0])*5
-mul = ((CO2-50)/5)/4;
-a = (CO2/4 + (2.5 - mul));	
-
-<valA></valA> rounded to <valB></valB>
-((<valC></valC> - 50) / 5 ) / 4 = <valD></valD> 
-(<valE></valE> / 4 + ( 2.5 - <valF></valF> )) = <valG></valG>
-
-Attractions and deductions:
-<valH></valH>
-		
+		<pre id = 'calc-pre'>		
 		</pre>
 	</div>
 </div>
@@ -309,7 +297,7 @@ function start(bool)
 	{
 		if (!elec)
 		{
-		hist.innerHTML += 'Q: ' + textQstn[qNum] + '?' + '\n' + 'A: ';
+		//hist.innerHTML += 'Q: ' + textQstn[qNum] + '?' + '\n' + 'A: ';
 		}
 	}
 	
@@ -370,7 +358,7 @@ function showSltn(b,c,d,e,f,g)
 
 function nextQ(bool)
 {
-	hist.innerHTML += bool ? 'yes' + '\n' : 'no' + '\n';
+	//hist.innerHTML += bool ? 'yes' + '\n' : 'no' + '\n';
 	qNum++;
 	start(bool);
 	return;
@@ -444,7 +432,7 @@ function calcUlev()
 	ulev.value <= 39 ? a = 12 :
 	ulev.value <= 69 ? a = 8 :
 	ulev.value <= 129 ? a  = 5 :
-	ulev.value >= 130 ? a = 2 : a = 0 ;
+	ulev.value > 130 ? a = 2 : a = 0 ;
 	
 	Apr6 ? a = (a - 2) : null;
 	desl ? a = (a + 4) : null;
