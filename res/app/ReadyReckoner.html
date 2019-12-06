@@ -8,7 +8,7 @@ Ready Reckoner
 <body>
 <div id = 'container'>
 	<div class = 'header'>
-		<p>Quick CO<sub>2</sub> Percentage Calculator 0.4.0</p>
+		<p>Quick CO<sub>2</sub> Percentage Calculator 0.4.1</p>
 	</div>
 	
 	<div class = 'app'>
@@ -339,7 +339,7 @@ function showSltn(b,c,d,e,f,g)
 		txt += ' 06/04/2020.'; 
 		txt += '\n';
 		txt += 'The vehicle has ';
-		txt += c ? 	'a CO<sub>2</sub> value of 1 - 50g/km ' : 
+		txt += c ? 	'a CO<sub>2</sub> value of 0 - 50g/km ' : 
 					'a CO<sub>2</sub> emission of over 50g/km.';
 		txt += '\n';
 		txt += e ? ' The vehicle is ' : '';
@@ -373,8 +373,7 @@ function calcPerc()
 	
 	if (CO2 < 50)
 	{
-		var ulev = document.getElementById('ulev');
-		c == 1 ? ulev.classList.toggle('hidden') : null;
+		reload();
 		return;
 	}
 	
@@ -479,6 +478,7 @@ function percSubmit()
 {
 	var CO2 = document.getElementById('CO2'),
 		ulev = document.getElementById('ulev'),
+		pcnt = document.getElementById('percentage'),
 		subm = document.getElementById('submit');
 	
 	if (CO2.classList != 'hidden') CO2.classList.toggle('hidden');
@@ -486,9 +486,8 @@ function percSubmit()
 	if (subm.classList != 'hidden') subm.classList.toggle('hidden');
 	if (CO2.value < 50)
 	{
-		ulev.classList.toggle('hidden');
-		subm.classList.toggle('hidden');
-		rnge = true;
+		pcnt.innerHTML = 'You have entered a CO<sub>2</sub> value of ' + CO2.value + '.</br> Whereas you stated your vehicle has emissions of over 50g/km.</br>You will need to restart the calculator.</br></br><button onclick = "reload()">OK</button>'
+		return;
 	}
 	rnge ? calcUlev() : calcPerc();
 }
