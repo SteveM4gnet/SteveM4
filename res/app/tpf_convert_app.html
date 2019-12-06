@@ -97,6 +97,22 @@ Drag file here:
 				<p>Children</p>
 			</div>
 		</div>
+		<div class = 'console collapse' onclick = 'expand("emitters")'>
+			<div>
+				<textarea id = 'display_emitters' onclick = 'saveButton()'></textarea>
+			</div>		
+			<div>
+				<p>Emitters</p>
+			</div>
+		</div>
+		<div class = 'console collapse' onclick = 'expand("newMdl")'>
+			<div>
+				<textarea id = 'display_newMdl' onclick = 'saveButton()'></textarea>
+			</div>		
+			<div>
+				<p>New Mdl</p>
+			</div>
+		</div>
 		
 	</div>
 	<button id = 'closeTextarea' class = 'close' onclick = 'expand("close")'>Close</button>
@@ -137,7 +153,7 @@ Drag file here:
 	<button id = 'fullScreenButton' onclick = 'fullscreen()'>Larger view</button>
 	<button id = 'guideButton' onclick = 'tpfAlert("guide",true)'>Guide</button>
 </div>
-<div id = 'alertBox' class = ''onclick = 'tpfAlert(null)'>Terrain alignment collision</div>
+<div id = 'alertBox' class = ''onclick = 'tpfAlert("none",false)'>Terrain alignment collision</div>
 </body>
 <script src = '../js/tpf_convert_script.js'></script>
 </html>
