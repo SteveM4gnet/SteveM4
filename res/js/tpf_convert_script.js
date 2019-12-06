@@ -16,7 +16,25 @@ var inputFile = document.querySelector('#mdl_file'),
 	mshTransf = [[],[]],
 	mshAnimations = [[],[]],
 	mshMaterials = [[],[]],
-	grpChildArr = [[],[],[],[]],
+	grpChildArr = [[],[],[]],
+	newMdlChild = 
+	{
+		animations: [[],[]],
+		materials: [[],[]],
+		mesh: [],
+		transf: [],
+		groupToChild: [],
+		boundingInfo:
+		{
+			bbMax:'',
+			bbMin:'',
+		},
+		mdlMetaData: 
+		{
+			modelStats: model,
+			modelParticles: '',
+		},			
+	},
 	mshAnimations;
 
 function readFile()
@@ -156,6 +174,7 @@ function findChildInGrp(grpFiles)
 
 function parseFile(txt,fileName)
 {
+	
 	var file =
 		{
 			content: txt,
@@ -167,7 +186,9 @@ function parseFile(txt,fileName)
 	fileParse = file.content.replace(/[\t+]|[\r+]/g, '');
 	fileParse = fileParse.split('\n');
 	
-	if (fileType == 'mdl') getMetaData(fileParse);
+	if (fileType == 'mdl') getParticleSystem(fileParse, fileType, fileName);
+	if (fileType == 'mdl') getBoundingInfo(fileParse);
+	if (fileType == 'mdl') mdlFileParse = fileParse;
 	if (fileType == 'mdl') displayFile(fileParse, fileType);
 	if (fileType == 'grp') displayFile(fileParse, fileType);
 	if (fileType == 'mtl') displayFile(fileParse, fileType);
@@ -175,10 +196,11 @@ function parseFile(txt,fileName)
 	if (fileType == 'msh') getAnimationData(fileParse, fileType, fileName);
 	if (fileType == 'msh') getMaterialData(fileParse, fileType, fileName);
 	if (fileType == 'grp') grpToChild(fileParse, fileType, fileName);
+	if (fileType == 'mdl') getMetaData(fileParse);
 }
 
 function displayFile(file, type)
-{
+{	
 	var int1 = 0,
 		tabIndex = 0;
 	
@@ -195,6 +217,78 @@ function displayFile(file, type)
 		cd('\n', type);
 		int1++;
 	}
+	
+}
+
+function getBoundingInfo(file)
+{
+	var int1 = 0,
+		particleEmitters = '',
+		tabIndex = 0,
+		childOpen = false;	
+	
+	while (file.length > int1+1)
+	{
+		if (file[int1].includes('boundingInfo')) childOpen = true;
+		
+		if (childOpen)
+		{
+			if (fileParse[int1].includes('{')) tabIndex++;
+			if (fileParse[int1].includes('}')) tabIndex--;
+				
+			if (file[int1].includes('bbMax'))
+			{
+				newMdlChild.boundingInfo.bbMax = file[int1];
+			}
+			if (file[int1].includes('bbMin'))
+			{
+				newMdlChild.boundingInfo.bbMin = file[int1];
+			}
+			
+			if (tabIndex == 0)
+			{
+				childOpen = false;
+			}	
+		}
+		int1++;
+	}
+}
+
+function getParticleSystem(file, type, name)
+{
+	var int1 = 0,
+		particleEmitters = '',
+		tabIndex = 0,
+		childOpen = false;	
+	
+	while (file.length > int1+1)
+	{
+		if (file[int1].includes('particleSystem')) childOpen = true;
+		
+		if (childOpen)
+		{
+			if (file[int1] == '') file.splice(int1,1);			
+			
+			for (var i = 0; i != tabIndex; i++)
+			{
+				cd('\t','emitters') 
+			}
+			cd(file[int1] + '\n','emitters');
+			
+			if (file[int1].includes('{')) tabIndex++;
+			if (file[int1].includes('}')) tabIndex--;
+			
+			particleEmitters += file[int1];
+			
+			if (tabIndex == 0)
+			{
+				childOpen = false;
+			}	
+		}
+		int1++;		
+	}
+	particleEmitters = particleEmitters.split('particleSystem = {')[1];
+	newMdlChild.mdlMetaData.modelParticles = particleEmitters;
 }
 
 function grpToChild(file, type, name)
@@ -209,7 +303,7 @@ function grpToChild(file, type, name)
 		childOpen = false;
 		returnOpen = false;
 	
-while (fileParse.length > int1+1)
+	while (fileParse.length > int1+1)
 	{
 		if (fileParse[int1].includes('return')) returnOpen = true;
 		if (fileParse[int1].includes('children')) childOpen = true;
@@ -272,6 +366,9 @@ while (fileParse.length > int1+1)
 				'.msh | id = ' + grpChildArr[0][i] + '\n' +
 				'.msh | transf = ' + grpChildArr[1][i] + '\n\n','children'
 			)
+			newMdlChild.mesh.push(grpChildArr[0][i]);
+			newMdlChild.groupToChild.push(grpChildArr[2][i]);			
+			newMdlChild.transf.push(grpChildArr[1][i]);
 		}
 }
 
@@ -334,6 +431,8 @@ function getMaterialData(fileParse, fileType, fileName)
 			'msh file = ' + mshMaterials[0][i] + '\n' +
 			'mtl target = ' + mshMaterials[1][i] + '\n\n','mtl'
 		)
+		newMdlChild.materials[0].push(mshMaterials[0][i]);
+		newMdlChild.materials[1].push(mshMaterials[1][i].split('materials = {"')[1]);
 	}	
 }
 
@@ -384,6 +483,8 @@ function getAnimationData(fileParse, fileType, fileName)
 			'animation data = ' + '\n' +
 			mshAnimations[1][i] + '\n\n','animation'
 		)
+		newMdlChild.animations[0].push(mshAnimations[0][i]);
+		newMdlChild.animations[1].push(mshAnimations[1][i].split('animations = {')[1]);
 	}	
 }
 
@@ -467,67 +568,62 @@ function getMshData(fileParse)
 	}
 }
 
-function getMetaData(mdlFileParse)
+function getMetaData(fileParse)
 {
 	var int1 = 0,
 		int2 = 0,
-		tabIndex = 0;
+		tabIndex = 0,
+		targetFile,
+		childOpen = false;
 		
-	while (mdlFileParse.length > int1)
+	while (fileParse.length > int1)
 	{
-		if (mdlFileParse[int1].includes('metadata'))
+		if (fileParse[int1].includes('metadata')) childOpen = true;
+		
+		if (childOpen)
 		{
-			metaDataArr = mdlFileParse.splice(int1,mdlFileParse.length );
+			if (fileParse[int1].includes('{')) tabIndex++;
+			if (fileParse[int1].includes('}')) tabIndex--;
+				
+			if (fileParse[int1].includes('name = _')) 			model.descName 		= getParam();
+			if (fileParse[int1].includes('description = _'))	model.descAbout 	= getParam();
+			if (fileParse[int1].includes('topSpeed = ')) 		model.topSpeed 		= getParam();
+			if (fileParse[int1].includes('weight = ')) 			model.weight 		= getParam();
+			if (fileParse[int1].includes('type = '))			model.engineType 	= getParam('type');
+			if (fileParse[int1].includes('power = ')) 			model.enginePower 	= getParam('power');
+			if (fileParse[int1].includes('Effort = '))			model.engineTE		= getParam('Effort');
+			if (fileParse[int1].includes('soundSet = ')) 		model.soundSet 		= getParam('name');
+			if (fileParse[int1].includes('carrier =')) 			model.carrier 		= getParam();
+			if (fileParse[int1].includes('yearFrom =')) 		model.availFrom 	= getParam();
+			if (fileParse[int1].includes('yearTo =')) 			model.availTo 		= getParam();
+			if (fileParse[int1].includes('price = ')) 			model.costPrice 	= getParam();
+			if (fileParse[int1].includes('runningCosts ='))		model.costRunning 	= getParam();
+			if (fileParse[int1].includes('lifespan =')) 		model.lifespan 		= getParam();
 			
-			while (metaDataArr.length > int2)
+			function getParam(searchLine)
 			{
-				if (metaDataArr[int2].includes('name = _')) 		model.descName 		= getParam();
-				if (metaDataArr[int2].includes('description = _'))	model.descAbout 	= getParam();
-				if (metaDataArr[int2].includes('topSpeed = ')) 		model.topSpeed 		= getParam();
-				if (metaDataArr[int2].includes('weight = ')) 		model.weight 		= getParam();
-				if (metaDataArr[int2].includes('type = '))			model.engineType 	= getParam('type');
-				if (metaDataArr[int2].includes('power = ')) 		model.enginePower 	= getParam('power');
-				if (metaDataArr[int2].includes('Effort = '))		model.engineTE		= getParam('Effort');
-				if (metaDataArr[int2].includes('soundSet = ')) 		model.soundSet 		= getParam('name');
-				if (metaDataArr[int2].includes('carrier =')) 		model.carrier 		= getParam();
-				if (metaDataArr[int2].includes('yearFrom =')) 		model.availFrom 	= getParam();
-				if (metaDataArr[int2].includes('yearTo =')) 		model.availTo 		= getParam();
-				if (metaDataArr[int2].includes('price = ')) 		model.costPrice 	= getParam();
-				if (metaDataArr[int2].includes('runningCosts ='))	model.costRunning 	= getParam();
-				if (metaDataArr[int2].includes('lifespan =')) 		model.lifespan 		= getParam();
+				var param;
 				
-				function getParam(searchLine)
-				{
-					var param;
-					
-					param = metaDataArr[int2];
-					
-					 if (searchLine)
-					 {
-						var pos;
-						pos = param.search(searchLine);
-						param = param.slice(pos);
-						param = param.split(',')[0];
-						param = param.replace(/\}\s*$/,"");
-					}
-					param = param.replace(/(^.*\(|\).*$)|[\"]/g,'');
-					if (param.includes('=')) param = param.split('=')[1];
-					param = param.replace(/,\s*$/,"");
-					param = param.trim();
-					return String(param);
+				param = fileParse[int1];
+				
+				 if (searchLine)
+				 {
+					var pos;
+					pos = param.search(searchLine);
+					param = param.slice(pos);
+					param = param.split(',')[0];
+					param = param.replace(/\}\s*$/,"");
 				}
-				
-				if (metaDataArr[int2].includes('{')) tabIndex++;
-				if (metaDataArr[int2].includes('}')) tabIndex--;
-				if (tabIndex == 0) int2 = metaDataArr;
-				//for (var i = 0; i != tabIndex; i++)
-				//{
-				//	cd('\t') 
-				//}
-				//cd(metaDataArr[int2])
-				//cd('\n');
-				//showStats(model);	
-				int2++;
+				param = param.replace(/(^.*\(|\).*$)|[\"]/g,'');
+				if (param.includes('=')) param = param.split('=')[1];
+				param = param.replace(/,\s*$/,"");
+				param = param.trim();
+				return String(param);
+			}
+			
+			if (tabIndex == 0)
+			{
+				childOpen = false;
 			}
 		}	
 		int1++;		
@@ -552,17 +648,27 @@ function tpfAlert(alertTxt,nice)
 		alertTxt = getGuide();
 	}
 	
-	if (nice)
+	if (alertTxt == 'none')
 	{
-		alertBox.classList.toggle('nice');
-	}
-	else
-	{
-		alertBox.classList.toggle('nice');
+		alertBox.className = ('');	
+		alertBox.innerHTML = alertTxt;
+		return;
 	}
 	
 	alertBox.innerHTML = alertTxt;
-	alertBox.classList.toggle('show');
+	setTimeout(showText,10);
+			function showText()
+			{
+				alertBox.classList.toggle('show');
+				if (nice)
+				{
+					alertBox.classList.toggle('nice');
+				}
+				else
+				{
+					alertBox.className = ('show');					
+				}
+			}	
 }
 
 function showMetaData(t)
@@ -741,4 +847,101 @@ function getGuide(guide)
 	'<a href = "new_example.mdl" target = "_blank">Here</a>.' ;
 	
 	return guide;
+}
+
+function amntOfLods()
+{
+	var childOpen = false,
+		lodNumber = 0;
+	
+	for (var i = 0; i != mdlFileParse.length; i++)
+	{
+		if (mdlFileParse[i].includes('lods')) childOpen = true;
+		
+		if (childOpen)
+		{
+			if (mdlFileParse[i].includes('children')) lodNumber++;
+		}
+	}
+	return lodNumber;
+}
+
+function amntOfGroups()
+{
+	var childOpen = false,
+		groupNumber = 0;
+	
+	for (var i = 0; i != mdlFileParse.length; i++)
+	{
+		if (mdlFileParse[i].includes('children')) childOpen = true;
+		
+		if (childOpen)
+		{
+			if (mdlFileParse[i].includes('GROUP')) groupNumber++;
+		}
+	}
+	return groupNumber;
+}
+
+function linkMshToMtl()
+{
+	
+}
+
+function makeNewMdl()
+{
+	var mdlHeader =
+		'local vec2 = require "vec2"' + '\n' +
+		'local vec3 = require "vec3"' + '\n' +
+		'local vehicleutil = require "vehicleutil"' + '\n' +
+		'function data()' + '\n' +
+		'return {' + '\n';
+		
+	var boundingInfo = 
+		'boundingInfo = {' +'\n' +
+		newMdlChild.boundingInfo.bbMax +'\n' +
+		newMdlChild.boundingInfo.bbMin +'\n' +
+		'}' +'\n';
+	
+	var collider = 
+		'collider = {' + '\n' +
+		'params = {},' +'\n' +
+		'transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },' +'\n' +
+		'type = "MESH",' +'\n' +
+		'},' +'\n';
+		
+	var lodsHeader =
+		'lods = {' +'\n' +
+		'{' +'\n';
+
+	var nodes = '';
+	for (var i = 0; i != amntOfLods(); i++)
+	{
+		var children = '';
+		
+		nodes += 
+		'children = {' + '\n' +
+		'{' + '\n';
+		
+		for (var ii = 0; ii != amntOfGroups(); ii++)
+		{
+			nodes = 
+			'children = {' + '\n' +
+			'{' + '\n' +
+			'materials = { ' + newMdlChild.materials[1][0] + ', },' + '\n' +
+			'mesh = ' + newMdlChild.materials[0][0] + ',' + '\n' +
+			'transf = ' +
+			
+			
+		}
+	}
+		
+		
+	var newMdlFileFull = mdlHeader + boundingInfo + collider
+	return newMdlFileFull;
+}
+
+function printNewMdl()
+{
+	cd(makeNewMdl(),'newMdl');
 }
