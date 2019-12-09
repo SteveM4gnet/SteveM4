@@ -486,7 +486,7 @@ function percSubmit()
 	if (subm.classList != 'hidden') subm.classList.toggle('hidden');
 	if (!rnge)
 	{
-	if (CO2.value < 50)
+	if (CO2.value <= 50)
 		{
 			pcnt.innerHTML = 'You have entered a CO<sub>2</sub> value of ' + CO2.value + '.</br> Whereas you stated your vehicle has emissions of over 50g/km.</br>You will need to restart the calculator.</br></br><button onclick = "reload()">OK</button>'
 			return;
