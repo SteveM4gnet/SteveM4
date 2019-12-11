@@ -1,4 +1,5 @@
 var inputFile = document.querySelector('#mdl_file'),
+	nextFile = document.querySelector('#fileTypeToUpload'),
 	fileType,
 	stats = document.querySelector('#display_stats'),
 	metaData = document.querySelector('#metadata'),
@@ -17,13 +18,16 @@ var inputFile = document.querySelector('#mdl_file'),
 	mshAnimations = [[],[]],
 	mshMaterials = [[],[]],
 	grpChildArr = [[],[],[]],
+	mshFileName = [[],[]],
+	mshAndMtl = [[],[]],
 	newMdlChild = 
 	{
 		animations: [[],[]],
 		materials: [[],[]],
 		mesh: [],
 		transf: [],
-		groupToChild: [],
+		groupFiles: [],
+		groupFileWithName: [[],[]],
 		boundingInfo:
 		{
 			bbMax:'',
@@ -35,12 +39,25 @@ var inputFile = document.querySelector('#mdl_file'),
 			modelParticles: '',
 		},			
 	},
-	mshAnimations;
+	mshAnimations,
+	mdlUp = false,
+	grpUp = false,
+	mshUp = false;
 
 function readFile()
 {
 	fileType = inputFile.files[0].name.split('.');
 	fileType = !fileType[2] ? fileType[1] : fileType[1] + '.' + fileType[2];
+	
+	if (fileType == 'mdl') mdlUp = true;
+	if (fileType == 'grp') grpUp = true;
+	if (fileType == 'msh') mshUp = true;
+	
+	if (mdlUp) nextFile.innerText = '.grp files'
+	if (grpUp) nextFile.innerText = '.msh files'
+	
+	checkFilesUploaded();
+	
 	if (inputFile.files.length > 1)
 	{
 		console.log('multiFile');
@@ -87,7 +104,7 @@ function readFile()
 			parseFile(fileContent);
 		}
 		reader.readAsText(fileContent);		
-	}	
+	}
 }
 
 function findAnimationInMsh(mshFiles)
@@ -105,17 +122,138 @@ function findAnimationInMsh(mshFiles)
 		let reader = new FileReader();		
 		reader.readAsText(fileContent);
 		reader.onload = function()
-		{
-			int2++;
+		{			
 			fileContent = reader.result;
-			mshString += fileContent;			
+			if (fileContent.includes('animations'))
+			{
+				mshString += fileContent;
+				mshFileName[0].push(fileName[int2]);
+				mshFileName[1].push(fileContent);
+				mshAndMtl[0].push(fileName[int2]);
+				mshAndMtl[1].push(fileContent);
+			}
+			else
+			{
+				console.log(fileName[int2] + ' does not contain animations');
+				mshAndMtl[0].push(fileName[int2]);
+				mshAndMtl[1].push(fileContent);
+			}
+			int2++;
 			if (int2 == int1)
 			{
 				parseFile(mshString, fileName);
-			}
+				getAnimationDataFromMesh();
+				getMaterialDataFromMesh();
+			}		
 		}	
 		int1++;
 	}
+}
+
+function getMaterialDataFromMesh()
+{
+	for (var i = 0; i < mshAndMtl[0].length; i++)
+	{
+		var mshFileLines = mshAndMtl[1][i].split('\n'),
+			int1 = 0,
+			int2 = 0,
+			tabIndex = 0,
+			materialData = '',
+			childOpen = false;
+			
+		while (mshFileLines.length > int1)
+		{
+			if (mshFileLines[int1].includes('materials')) childOpen = true;
+			
+			if (childOpen)
+			{
+				if (mshFileLines[int1] == '') mshFileLines.splice(int1,1);
+				if (mshFileLines[int1].includes('{')) tabIndex++;
+				if (mshFileLines[int1].includes('}')) tabIndex--;
+
+				if (tabIndex > 0)
+				{
+					int2++;
+					materialData += mshFileLines[int1];
+				}
+				
+				if (tabIndex == 0)
+				{				
+					childOpen = false;
+					newMdlChild.materials[0].push(mshAndMtl[0][i])
+					newMdlChild.materials[1].push(materialData);
+					materialData = '';
+				}					
+			}
+			int1++;		
+		}
+
+	}
+	
+	//--DISPLAY
+	for (var i = 0; i != newMdlChild.materials[0].length; i++)
+	{
+		cd
+		(
+			'.msh file = ' + newMdlChild.materials[0][i] + '\n' +
+			'materials data = ' + '\n' +
+			newMdlChild.materials[1][i] + '\n\n','mtl'
+		)
+	}	
+}
+
+function getAnimationDataFromMesh()
+{
+	for (var i = 0; i < mshFileName[0].length; i++)
+	{
+		if (mshFileName[1][i].includes('local vec2'))
+		{
+			var mshFileLines = mshFileName[1][i].split('\n'),
+				int1 = 0,
+				int2 = 0,
+				tabIndex = 0,
+				animationData = '',
+				childOpen = false;
+				
+			while (mshFileLines.length > int1)
+			{
+				if (mshFileLines[int1].includes('animations')) childOpen = true;
+				
+				if (childOpen)
+				{
+					if (mshFileLines[int1] == '') mshFileLines.splice(int1,1);
+					if (mshFileLines[int1].includes('{')) tabIndex++;
+					if (mshFileLines[int1].includes('}')) tabIndex--;
+
+					if (tabIndex > 0)
+					{
+						int2++;
+						animationData += mshFileLines[int1];
+					}
+					
+					if (tabIndex == 0)
+					{				
+						childOpen = false;
+						newMdlChild.animations[0].push(mshFileName[0][i])
+						newMdlChild.animations[1].push(animationData);
+						animationData = '';
+					}					
+				}
+				int1++;		
+			}
+		}
+	}
+	
+	//--DISPLAY
+	for (var i = 0; i != newMdlChild.animations[0].length; i++)
+	{
+		cd
+		(
+			'.msh file = ' + newMdlChild.animations[0][i] + '\n' +
+			'animation data = ' + '\n' +
+			newMdlChild.animations[1][i] + '\n\n','animation'
+		)
+	}	
 }
 
 function findMshInGrp(grpFiles)
@@ -162,10 +300,13 @@ function findChildInGrp(grpFiles)
 		{
 			int2++;
 			fileContent = reader.result;
+			newMdlChild.groupFileWithName[0].push(fileContent)
+			newMdlChild.groupFileWithName[1].push(fileName[int2-1]);
 			grpString += fileContent;			
 			if (int2 == int1)
 			{
 				parseFile(grpString, fileName);
+			
 			}
 		}	
 		int1++;
@@ -193,8 +334,6 @@ function parseFile(txt,fileName)
 	if (fileType == 'grp') displayFile(fileParse, fileType);
 	if (fileType == 'mtl') displayFile(fileParse, fileType);
 	if (fileType == 'mdl' || fileType == 'grp') getMshData(fileParse);
-	if (fileType == 'msh') getAnimationData(fileParse, fileType, fileName);
-	if (fileType == 'msh') getMaterialData(fileParse, fileType, fileName);
 	if (fileType == 'grp') grpToChild(fileParse, fileType, fileName);
 	if (fileType == 'mdl') getMetaData(fileParse);
 }
@@ -206,18 +345,35 @@ function displayFile(file, type)
 	
 	while (file.length > int1)
 	{
-		if (file[int1].includes('{')) tabIndex++;
-		if (file[int1].includes('}')) tabIndex--;
-		
 		for (var i = 0; i != tabIndex; i++)
 		{
 			cd('\t', type) 
 		}
+		
+		if (file[int1].includes('{')) tabIndex++;
+		if (file[int1].includes('}')) tabIndex--;		
+
 		cd(file[int1], type)
 		cd('\n', type);
 		int1++;
 	}
-	
+}
+
+function showMeshesNeeded()
+{
+	if (grpUp)
+	{
+		tpfAlert('Please upload the following .msh files: ' + '\n\n' +  showNeededMsh(), false);
+		function showNeededMsh()
+		{
+			var txt = '';
+			for (var i = 0; newMdlChild.mesh.length > i; i++)
+			{
+				txt += newMdlChild.mesh[i] + '\n';
+			}
+			return txt;
+		}
+	}
 }
 
 function getBoundingInfo(file)
@@ -366,126 +522,10 @@ function grpToChild(file, type, name)
 				'.msh | id = ' + grpChildArr[0][i] + '\n' +
 				'.msh | transf = ' + grpChildArr[1][i] + '\n\n','children'
 			)
-			newMdlChild.mesh.push(grpChildArr[0][i]);
-			newMdlChild.groupToChild.push(grpChildArr[2][i]);			
+			newMdlChild.mesh.push(grpChildArr[0][i]);						
 			newMdlChild.transf.push(grpChildArr[1][i]);
 		}
-}
-
-function getMaterialData(fileParse, fileType, fileName)
-{
-	var int1 = 0,
-		int2 = 0,
-		tabIndex = 0,
-		tabIndex2 = 0,
-		fileInt = 0,
-		materialData = '',
-		childOpen = false,
-		returnOpen = false;
-	
-	while (fileParse.length > int1+1)
-	{
-		if (fileParse[int1].includes('return')) returnOpen = true;
-		if (fileParse[int1].includes('materials')) childOpen = true;
-		
-		if (returnOpen)
-		{
-			if (fileParse[int1].includes('{')) tabIndex2++;
-			if (fileParse[int1].includes('}')) tabIndex2--;			
-		
-			if (childOpen)
-			{
-				if (fileParse[int1] == '') fileParse.splice(int1,1);
-				if (fileParse[int1].includes('{')) tabIndex++;
-				if (fileParse[int1].includes('}')) tabIndex--;
-
-				if (tabIndex > 0)
-				{
-					int2++;
-					materialData += fileParse[int1];
-				}
-				
-				if (tabIndex == 0)
-				{				
-					childOpen = false;
-					mshMaterials[0].push(fileName[fileInt])
-					mshMaterials[1].push(materialData);
-					materialData = '';
-				}		
-			}
-			if (tabIndex2 == 0)
-			{
-				returnOpen = false;
-				fileInt++;
-			}
-			
-		}
-		int1++;		
-	}
-	materialData = '';
-	//-- display
-	for (var i = 0; i != mshMaterials[0].length; i++)
-	{
-		cd
-		(
-			'msh file = ' + mshMaterials[0][i] + '\n' +
-			'mtl target = ' + mshMaterials[1][i] + '\n\n','mtl'
-		)
-		newMdlChild.materials[0].push(mshMaterials[0][i]);
-		newMdlChild.materials[1].push(mshMaterials[1][i].split('materials = {"')[1]);
-	}	
-}
-
-function getAnimationData(fileParse, fileType, fileName)
-{
-	var int1 = 0,
-		int2 = 0,
-		tabIndex = 0,
-		fileInt = 0,
-		animationData = '',
-		childOpen = false;
-	
-	while (fileParse.length > int1+1)
-	{
-		if (fileParse[int1].includes('animations')) childOpen = true;
-		
-		if (childOpen)
-		{
-			if (fileParse[int1] == '') fileParse.splice(int1,1);
-			if (fileParse[int1].includes('{')) tabIndex++;
-			if (fileParse[int1].includes('}')) tabIndex--;
-
-			if (tabIndex > 0)
-			{
-				int2++;
-				animationData += fileParse[int1];
-			}
-			
-			if (tabIndex == 0)
-			{				
-				childOpen = false;
-				mshAnimations[0].push(fileName[fileInt])
-				mshAnimations[1].push(animationData);
-				animationData = '';
-				fileInt++;
-			}
-			
-		}
-		int1++;		
-	}
-	animationData = '';
-	//-- display
-	for (var i = 0; i != mshAnimations[0].length; i++)
-	{
-		cd
-		(
-			'.msh file = ' + mshAnimations[0][i] + '\n' +
-			'animation data = ' + '\n' +
-			mshAnimations[1][i] + '\n\n','animation'
-		)
-		newMdlChild.animations[0].push(mshAnimations[0][i]);
-		newMdlChild.animations[1].push(mshAnimations[1][i].split('animations = {')[1]);
-	}	
+	newMdlChild.groupFiles.push(file);
 }
 
 function getMshData(fileParse)
@@ -546,7 +586,7 @@ function getMshData(fileParse)
 		)
 	}
 	
-	if (msgAlert)
+	if (msgAlert && !grpUp)
 	{
 		tpfAlert('Your .mdl or .grp file referenced other .grp files.' + '\n' +
 			'These are now non-standard in TpF2.' + '\n\n' + 
@@ -849,6 +889,12 @@ function getGuide(guide)
 	return guide;
 }
 
+function getMshFilesWithinGrp(grp)
+{
+	var	count = (grp.match(/.msh/g) || []).length;
+	return count;
+}
+
 function amntOfLods()
 {
 	var childOpen = false,
@@ -863,6 +909,7 @@ function amntOfLods()
 			if (mdlFileParse[i].includes('children')) lodNumber++;
 		}
 	}
+	//console.log('Lods = ' + lodNumber);
 	return lodNumber;
 }
 
@@ -880,68 +927,295 @@ function amntOfGroups()
 			if (mdlFileParse[i].includes('GROUP')) groupNumber++;
 		}
 	}
+	//console.log('Groups = ' + groupNumber);
 	return groupNumber;
 }
 
-function linkMshToMtl()
+function linkMshToMtl(mshFile)
 {
-	
+	var mtlFile;
+	for (var i = 0; i != newMdlChild.materials[0].length; i++)
+	{
+		if (newMdlChild.materials[0][i] == mshFile)
+		{
+			mtlFile = newMdlChild.materials[1][i];
+		}
+	}	
+	//console.log('mtlFile = ' + mtlFile);
+	if (mtlFile == undefined) return null;
+	return mtlFile.split('"')[1];
 }
 
 function makeNewMdl()
 {
-	var mdlHeader =
+	var newMdlFileFull =
 		'local vec2 = require "vec2"' + '\n' +
 		'local vec3 = require "vec3"' + '\n' +
 		'local vehicleutil = require "vehicleutil"' + '\n' +
 		'function data()' + '\n' +
 		'return {' + '\n';
 		
-	var boundingInfo = 
+	newMdlFileFull += 
 		'boundingInfo = {' +'\n' +
 		newMdlChild.boundingInfo.bbMax +'\n' +
 		newMdlChild.boundingInfo.bbMin +'\n' +
 		'}' +'\n';
 	
-	var collider = 
+	newMdlFileFull += 
 		'collider = {' + '\n' +
 		'params = {},' +'\n' +
 		'transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },' +'\n' +
 		'type = "MESH",' +'\n' +
 		'},' +'\n';
 		
-	var lodsHeader =
-		'lods = {' +'\n' +
-		'{' +'\n';
-
-	var nodes = '';
-	for (var i = 0; i != amntOfLods(); i++)
+	newMdlFileFull += 
+		'lods = {' +'\n';
+		
+	function lodHeader()
 	{
-		var children = '';
-		
-		nodes += 
-		'children = {' + '\n' +
-		'{' + '\n';
-		
-		for (var ii = 0; ii != amntOfGroups(); ii++)
-		{
-			nodes = 
-			'children = {' + '\n' +
+		var txt =
+		'{' + '\n' +
+		'node = { ' + '\n' +
+		'children = {' + '\n';
+		return txt;
+	}
+	
+	function startOfGrp()
+	{
+		var txt =
+		'{' + '\n' +
+		'children = {' + '\n';
+		return txt;
+	}
+	
+	function addMshDetails(i)
+	{
+		var int1 = 0,
+			animation = '';
+			
+		if (newMdlChild.mesh[i].split('/')[3] != '')
+		{			
+			while (newMdlChild.animations[0].length > int1)
+			{
+				if (newMdlChild.animations[0][int1] == newMdlChild.mesh[i].split('/')[3])
+				{
+					if (newMdlChild.animations[1][int1] != '')
+					{
+						animation += 
+						'\n' + 	newMdlChild.animations[1][int1] + '\n' +
+						'},' + '\n';
+						if (animation != '')
+							{
+								newMdlFileFull += animation;
+							}
+						animation = '';
+					}
+				}
+				int1++;
+			}
+			
+			newMdlFileFull +=
 			'{' + '\n' +
-			'materials = { ' + newMdlChild.materials[1][0] + ', },' + '\n' +
-			'mesh = ' + newMdlChild.materials[0][0] + ',' + '\n' +
-			'transf = ' +
-			
-			
+			'materials = { "' + linkMshToMtl(newMdlChild.mesh[i].split('/')[3]) + '", },' + '\n' +
+			'mesh = ' + newMdlChild.mesh[i] + ',' + '\n' +
+			'transf = {' + newMdlChild.transf[i] + '},' + '\n' +
+			'},' + '\n';				
 		}
 	}
+	
+	function addGrpEnd()
+	{
+		var txt =
+		'},' + '\n' +
+		'transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },' + '\n' + //-- .grp transf
+		'},' + '\n';
+		return txt;
+	}
+	
+	function addLodEnd()
+	{
+		var txt = 
+		'},' + '\n' +
+		'transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },' + '\n' + //-- .grp transf
+		'},' + '\n' +
+		lodVisible() + 
+		'},' + '\n';
+		return txt;
+	}
+	
+	var visFrom = 0, 
+		visTo = 200;
+	function lodVisible()
+	{
+		var txt =
+		'static = false,' + '\n' +
+		'visiableFrom = ' + visFrom + ',' + '\n' +
+		'visibleTo = ' + visTo + ',' + '\n';
+		visFrom = visTo;
+		visTo = visTo*3;
+		return txt;
+	}
+
+	var lod = 0,
+		lods = amntOfLods(),
+		grpMshIndex = 0,
+		int1 = 0,
+		mshInt = 0,
+		grpFileCount = newMdlChild.groupFileWithName[1].length;
+	
+	function grpLodNo(int1)
+	{
+		return newMdlChild.groupFileWithName[1][int1].split('lod_')[1].slice(0,1);
+	}
+	
+	//-- MESHES AND CHILDREN
+	
+	while (lod < lods)
+	{		
+		newMdlFileFull += 
+		lodHeader();
 		
-		
-	var newMdlFileFull = mdlHeader + boundingInfo + collider
-	return newMdlFileFull;
+		int1 = 0;
+		while (grpFileCount > int1)
+		{
+			mshInt = 0;
+			if (lod == grpLodNo(int1))
+			{
+				newMdlFileFull += 
+				startOfGrp();
+				
+				while(newMdlChild.mesh.length > mshInt)
+				{
+					if (newMdlChild.groupFileWithName[0][int1].includes(newMdlChild.mesh[mshInt]))
+					{
+						if (newMdlChild.groupFileWithName[0][int1].includes(newMdlChild.transf[mshInt]))
+						{
+							addMshDetails(mshInt);
+						}						
+					}
+					mshInt++;
+				}	
+				console.log('Added ' + mshInt + ' .msh files');
+				newMdlFileFull += 
+				addGrpEnd();				
+			}
+			int1++;
+		}
+		newMdlFileFull +=
+		addLodEnd();
+		lod++;		
+	}
+	
+	newMdlFileFull += 
+	'},' + '\n';
+	
+	//-- METADATA
+	
+	newMdlFileFull += 
+	'metadata = {' + '\n';
+	
+	var vehType;
+	if (model.carrier == 'RAIL') vehType = 'rail';
+	if (model.carrier == 'ROAD') vehType = 'road';
+	
+	newMdlFileFull +=
+	'emission = {' + '\n' +
+	'idleEmission = -1,' + '\n' +
+	'powerEmission = -1,' + '\n' +
+	'speedEmission = -1,' + '\n' +
+	'},' + '\n' +
+	'availability = {' + '\n' + 
+	'yearFrom = ' + model.availFrom + '\n' +
+	'yearTo = ' + model.availTo + '\n' +
+	'},' + '\n' +
+	'cost = {' + '\n' +
+	'price = ' + model.costPrice + '\n' +
+	'},' + '\n' +
+	'description = {' + '\n' +
+	'description =_("' + model.descAbout + '"' + '\n' +
+	'name =_{"' + model.descName + '"' + '\n' +
+	'},' + '\n' +
+	'maintenance = {' + '\n' +
+	'lifespan = ' + model.lifespan*365 + ',' + '\n' +
+	'runningCosts = ' + model.runningCosts + ',' + '\n' +
+	'},' + '\n' +
+	'particleSystem = {' + '\n' +
+	newMdlChild.mdlMetaData.modelParticles + '\n' +
+	'},' + '\n' +
+	vehType + 'vehicle ={' + '\n' +
+	'configs = {' + '\n' +
+	'{' + '\n';
+	makeAxles();
+	
+	function makeAxles()
+	{
+		for (var i = 0; i < amntOfLods(); i++)
+		{
+			for (var ii = 0; ii < newMdlChild.mesh.length; ii++)
+			{
+				if {newMdlChild.mesh[ii].includes('lod_' + i + '_w')
+				{
+					newMdlFileFull += newMdlChild.mesh[ii] + ',' + '\n'
+				}
+			}
+		}		
+	}
+	
+	newMdlFileFull += 
+	'},' + '\n';
+	
+	
+	
+	newMdlFileFull += 'end';	
+	printNewMdl(newMdlFileFull);
+	return;
 }
 
-function printNewMdl()
+function printNewMdl(txt)
 {
-	cd(makeNewMdl(),'newMdl');
+	var	int1 = 0,
+		tabIndex = 0;
+	
+	txt = txt.replace(/[\t+]|[\r+]/g, '');
+	txt = txt.split('\n');
+	
+	while (txt.length > int1)
+	{	
+		if (tabIndex == -1) tabIndex = 0;
+		
+		for (var i = 0; i < tabIndex; i++)
+		{
+			cd('\t','newMdl') 
+		}
+		
+		if (txt[int1].includes('}')) tabIndex--;		
+		if (txt[int1].includes('{')) tabIndex++;
+		
+		cd(txt[int1],'newMdl')
+		cd('\n','newMdl');
+		int1++;
+	}
+}
+
+function checkFilesUploaded()
+{
+	var mdlUpMark = document.querySelector('#mdl_up'),
+		grpUpMark = document.querySelector('#grp_up'),
+		mshUpMark = document.querySelector('#msh_up'),
+		showMsh = document.querySelector('#showNeededMeshFiles'),
+		makeMdlButton = document.querySelector('#makeNewMdl');
+		
+	if (mdlUp) mdlUpMark.innerHTML = '&#10003';
+	if (grpUp) grpUpMark.innerHTML = '&#10003';
+	if (mshUp) mshUpMark.innerHTML = '&#10003';
+	
+	if (mshUp && mdlUp)
+	{
+		makeMdlButton.removeAttribute("disabled");
+	}
+	
+	if (grpUp)
+	{
+		showMsh.removeAttribute("disabled");
+	}
 }

@@ -28,7 +28,7 @@ TPF to TPF2 converter
 
 <div id = 'upload' class = 'comfortaa centered'>
 <p class = 'centered comfortaa'>
-Drag file here:
+Drag <span id = 'fileTypeToUpload'>.mdl file</span> here:
 </p>
 <input
 	type = 'file'
@@ -43,7 +43,7 @@ Drag file here:
 	<div class = 'console-container'>
 		<div class = 'console collapse' onclick = 'expand("mdl")'>
 			<div>
-				<textarea id = 'display_mdl' onclick = 'saveButton()'></textarea>
+				<textarea id = 'display_mdl' onclick = 'saveButton()' readonly></textarea>
 			</div>
 			<div>
 				<p>.mdl</p>
@@ -51,7 +51,7 @@ Drag file here:
 		</div>
 		<div class = 'console collapse' onclick = 'expand("mtl")'>
 			<div>
-				<textarea id = 'display_mtl' onclick = 'saveButton()'></textarea>
+				<textarea id = 'display_mtl' onclick = 'saveButton()' readonly></textarea>
 			</div>
 			<div>
 				<p>.mtl</p>
@@ -59,7 +59,7 @@ Drag file here:
 		</div>
 		<div class = 'console collapse' onclick = 'expand("grp")'>
 			<div>
-				<textarea id = 'display_grp' onclick = 'saveButton()'></textarea>
+				<textarea id = 'display_grp' onclick = 'saveButton()' readonly></textarea>
 			</div>
 			<div>
 				<p>.grp</p>
@@ -67,7 +67,7 @@ Drag file here:
 		</div>
 		<div class = 'console collapse' onclick = 'expand("stats")'>
 			<div>
-				<textarea id = 'display_stats' onclick = 'saveButton()'></textarea>
+				<textarea id = 'display_stats' onclick = 'saveButton()' readonly></textarea>
 			</div>		
 			<div>
 				<p>stats</p>
@@ -75,7 +75,7 @@ Drag file here:
 		</div>
 		<div class = 'console collapse' onclick = 'expand("msh")'>
 			<div>
-				<textarea id = 'display_msh' onclick = 'saveButton()'></textarea>
+				<textarea id = 'display_msh' onclick = 'saveButton()' readonly></textarea>
 			</div>		
 			<div>
 				<p>Meshes</p>
@@ -83,7 +83,7 @@ Drag file here:
 		</div>
 		<div class = 'console collapse' onclick = 'expand("animation")'>
 			<div>
-				<textarea id = 'display_animation' onclick = 'saveButton()'></textarea>
+				<textarea id = 'display_animation' onclick = 'saveButton()' readonly></textarea>
 			</div>		
 			<div>
 				<p>Animations</p>
@@ -91,7 +91,7 @@ Drag file here:
 		</div>
 		<div class = 'console collapse' onclick = 'expand("children")'>
 			<div>
-				<textarea id = 'display_children' onclick = 'saveButton()'></textarea>
+				<textarea id = 'display_children' onclick = 'saveButton()' readonly></textarea>
 			</div>		
 			<div>
 				<p>Children</p>
@@ -99,7 +99,7 @@ Drag file here:
 		</div>
 		<div class = 'console collapse' onclick = 'expand("emitters")'>
 			<div>
-				<textarea id = 'display_emitters' onclick = 'saveButton()'></textarea>
+				<textarea id = 'display_emitters' onclick = 'saveButton()' readonly></textarea>
 			</div>		
 			<div>
 				<p>Emitters</p>
@@ -107,7 +107,7 @@ Drag file here:
 		</div>
 		<div class = 'console collapse' onclick = 'expand("newMdl")'>
 			<div>
-				<textarea id = 'display_newMdl' onclick = 'saveButton()'></textarea>
+				<textarea id = 'display_newMdl' onclick = 'saveButton()' readonly></textarea>
 			</div>		
 			<div>
 				<p>New Mdl</p>
@@ -152,6 +152,13 @@ Drag file here:
 	</div>
 	<button id = 'fullScreenButton' onclick = 'fullscreen()'>Larger view</button>
 	<button id = 'guideButton' onclick = 'tpfAlert("guide",true)'>Guide</button>
+	<button id = 'makeNewMdl' onclick = 'makeNewMdl()' disabled>Generate new .mdl file</button>
+	<button id = 'showNeededMeshFiles' onclick = 'showMeshesNeeded()' disabled>What .msh files do I need?</button>
+</div>
+<div class = 'checkboxes'>
+	<div><p>model:</p><p id = 'mdl_up'></p></div>
+	<div><p>groups:</p><p id = 'grp_up'></p></div>
+	<div><p>meshes:</p><p id = 'msh_up'></p></div>
 </div>
 <div id = 'alertBox' class = ''onclick = 'tpfAlert("none",false)'>Terrain alignment collision</div>
 </body>
