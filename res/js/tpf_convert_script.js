@@ -1155,7 +1155,7 @@ function makeNewMdl()
 			{
 				if {newMdlChild.mesh[ii].includes('lod_' + i + '_w')
 				{
-					newMdlFileFull += newMdlChild.mesh[ii] + ',' + '\n'
+					newMdlFileFull += newMdlChild.mesh[ii] + ',' + '\n';
 				}
 			}
 		}		
