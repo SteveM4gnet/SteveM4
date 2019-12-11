@@ -1153,7 +1153,7 @@ function makeNewMdl()
 		{
 			for (var ii = 0; ii < newMdlChild.mesh.length; ii++)
 			{
-				if {newMdlChild.mesh[ii].includes('lod_' + i + '_w')
+				if (newMdlChild.mesh[ii].includes('lod_' + i + '_w'))
 				{
 					newMdlFileFull += newMdlChild.mesh[ii] + ',' + '\n';
 				}
