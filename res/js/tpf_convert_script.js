@@ -930,7 +930,7 @@ function makeNewMdl()
 			'{' + '\n' +
 			'materials = { ' + newMdlChild.materials[1][0] + ', },' + '\n' +
 			'mesh = ' + newMdlChild.materials[0][0] + ',' + '\n' +
-			'transf = ' +
+			'transf = ' + '\n';
 			
 			
 		}

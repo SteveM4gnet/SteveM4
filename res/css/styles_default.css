@@ -19,7 +19,7 @@ body
 	left:0;
 	height:100%;
 	width:100%;
-	background:#3D7FAF;
+	background:#C12437;
 	transition:0.8s;
 	z-index:150;
 }
@@ -54,40 +54,40 @@ body
 	0%
 	{
 		border-top:#FFF 1vh solid;
-		border-left:#3D7FAF 1vh solid;
-		border-bottom:#3D7FAF 1vh solid;
-		border-right:#3D7FAF 1vh solid;	
+		border-left:#C12437 1vh solid;
+		border-bottom:#C12437 1vh solid;
+		border-right:#C12437 1vh solid;	
 	}
 	25%
 	{
-		border-top:#3D7FAF 1vh solid;
+		border-top:#C12437 1vh solid;
 		border-left:#FFF 1vh solid;
-		border-bottom:#3D7FAF 1vh solid;
-		border-right:#3D7FAF 1vh solid;	
+		border-bottom:#C12437 1vh solid;
+		border-right:#C12437 1vh solid;	
 	}
 	
 	50%
 	{
-		border-top:#3D7FAF 1vh solid;
-		border-left:#3D7FAF 1vh solid;
+		border-top:#C12437 1vh solid;
+		border-left:#C12437 1vh solid;
 		border-bottom:#FFF 1vh solid;
-		border-right:#3D7FAF 1vh solid;	
+		border-right:#C12437 1vh solid;	
 	}
 	
 	75%
 	{
-		border-top:#3D7FAF 1vh solid;
-		border-left:#3D7FAF 1vh solid;
-		border-bottom:#3D7FAF 1vh solid;
+		border-top:#C12437 1vh solid;
+		border-left:#C12437 1vh solid;
+		border-bottom:#C12437 1vh solid;
 		border-right:#FFF 1vh solid;	
 	}
 	
 	100%
 	{
 		border-top:#FFF 1vh solid;
-		border-left:#3D7FAF 1vh solid;
-		border-bottom:#3D7FAF 1vh solid;
-		border-right:#3D7FAF 1vh solid;	
+		border-left:#C12437 1vh solid;
+		border-bottom:#C12437 1vh solid;
+		border-right:#C12437 1vh solid;	
 	}
 }
 
@@ -150,7 +150,7 @@ body
 	left:0;
 	width:100%;
 	height:10%;
-	background:#3D7FAF;
+	background:#C12437;
 	z-index:100;
 }
 
@@ -186,7 +186,7 @@ body
 	border:white 0.25vh solid;
 	border-bottom:none;
 	box-sizing: border-box;
-	background-color:#3D7FAF;
+	background-color:#C12437;
 	color:#fff;
 	font-size:1rem;
 	transition:0.1s;
@@ -223,7 +223,7 @@ body
 .break
 {
 	height:5vh;
-	background:#3D7FAF !IMPORTANT;
+	background:#C12437 !IMPORTANT;
 	left:0;
 	width:100%;
 }
@@ -347,7 +347,7 @@ button
 .show-aboutMe
 {
     position: absolute;
-    background: #3d7faf;
+    background: #C12437;
     border-radius: 7vh;
     box-sizing: border-box;
     border: solid 1vh #fff;
@@ -360,7 +360,7 @@ button
 .hide-aboutMe
 {
 	position: absolute;
-    background: #3d7faf;
+    background: #C12437;
     border-radius: 7vh;
     box-sizing: border-box;
     border: solid 1vh #fff;
@@ -389,7 +389,7 @@ button
 #aboutMe div h1, #aboutMe div h2
 {
 	text-align:center;
-	color:#3d7faf;
+	color:#C12437;
 }	
 
 #aboutMe img
@@ -436,7 +436,7 @@ p.footer
     left: 5%;
     height: 30%;
     background: #fff;
-    border: solid 0.5vh #3d7faf;
+    border: solid 0.5vh #C12437;
     border-top-left-radius: 2.5vh;
     border-top-right-radius: 2.5vh;
     transition: 0.2s;
@@ -458,7 +458,7 @@ p.footer
 h3 
 {    
 	text-align: center;
-    color: #3d7faf;
+    color: #C12437;
 }
 
 .show-contact, .show-links
