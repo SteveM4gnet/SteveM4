@@ -8,7 +8,7 @@ Ready Reckoner
 <body>
 <div id = 'container'>
 	<div class = 'header'>
-		<p>Quick CO<sub>2</sub> Percentage Calculator 0.4.1</p>
+		<p>Quick CO<sub>2</sub> Percentage Calculator 0.4.10</p>
 	</div>
 	
 	<div class = 'app'>
@@ -35,13 +35,15 @@ Ready Reckoner
 				type = 'number'
 				class = 'hidden'
 				id = 'CO2'
-				placeholder = 'CO2'>
+				placeholder = 'CO2'
+				style="-moz-appearance: textfield">
 			</input>
 			<input
 				type = 'number'
 				class = 'hidden'
 				id = 'ulev'
-				placeholder = 'Electric Range (Miles)'>
+				placeholder = 'Electric Range (Miles)'
+				style="-moz-appearance: textfield">
 			</input>
 			<input
 				disabled
@@ -49,7 +51,8 @@ Ready Reckoner
 				class = 'hidden display-none'
 				id = 'listPrice'
 				onchange = 'listPrice()'
-				placeholder = 'List price of car'>
+				placeholder = 'List price of car'
+				style="-moz-appearance: textfield">
 			</input>
 			<button id = 'submit' onclick = 'percSubmit()' class = 'hidden'>Submit</button>
 		
@@ -76,6 +79,7 @@ body, pre, button, input
 .header
 {
 	font-weight: bold;
+	opacity:0.2;
 }
 
 button
@@ -396,7 +400,7 @@ function calcPerc()
 	}
 	
 	showListPrice(CO2);	
-	
+	var CO2show = CO2.value;
 	CO2 = (String(CO2.value/5).split('.')[0])*5
 	mul = ((CO2-50)/5)/4;
 	a = (CO2/4 + (2.5 - mul));	
@@ -405,7 +409,7 @@ function calcPerc()
 	desl ? (a = (a + 4)) : null;	
 	rde2 ? (a = (a - 4)) : null;	
 	
-	pcnt.innerHTML = '<pre>The appropriate percentage for tax calculations purposes for the 2020/2021 tax year is...</pre>' + '\n' + '\n';
+	pcnt.innerHTML = 'You have entered a CO<sub>2</sub> value of ' + CO2show + '.</br> The appropriate percentage for tax calculations purposes for the 2020/2021 tax year is...' + '\n' + '\n';
 	if (a > 37) a = 37;
 	pcnt.innerHTML += a + '%';
 	if (a > 100)
@@ -484,10 +488,13 @@ function percSubmit()
 	if (CO2.classList != 'hidden') CO2.classList.toggle('hidden');
 	if (ulev.classList != 'hidden') ulev.classList.toggle('hidden');
 	if (subm.classList != 'hidden') subm.classList.toggle('hidden');
-	if (CO2.value < 50)
+	if (!rnge)
 	{
-		pcnt.innerHTML = 'You have entered a CO<sub>2</sub> value of ' + CO2.value + '.</br> Whereas you stated your vehicle has emissions of over 50g/km.</br>You will need to restart the calculator.</br></br><button onclick = "reload()">OK</button>'
-		return;
+	if (CO2.value <= 50)
+		{
+			pcnt.innerHTML = 'You have entered a CO<sub>2</sub> value of ' + CO2.value + '.</br> Whereas you stated your vehicle has emissions of over 50g/km.</br>You will need to restart the calculator.</br></br><button onclick = "reload()">OK</button>'
+			return;
+		}
 	}
 	rnge ? calcUlev() : calcPerc();
 }

@@ -3,6 +3,11 @@ body
 	font-family:comfortaa;
 }
 
+:disabled
+{
+	opacity:0.5;
+}
+
 #bannerText
 {
 	left:50% !IMPORTANT;
@@ -240,7 +245,10 @@ button.save.show.fullscreen
     height: 85vh;
 }
 
-button#fullScreenButton, #guideButton
+#fullScreenButton,
+#guideButton,
+#makeNewMdl,
+#showNeededMeshFiles
 {
     position: absolute;
     bottom: 1vh;
@@ -250,6 +258,16 @@ button#fullScreenButton, #guideButton
 #guideButton
 {
 	left: 1vh;
+}
+
+#makeNewMdl
+{
+	left: 10vh;
+}
+
+#showNeededMeshFiles
+{
+	left: 30vh;
 }
 
 div#alertBox
@@ -290,4 +308,27 @@ div#mod_dependencies {
     left: 5%;
     white-space: pre-wrap;
 	display:none;
+}
+
+.checkboxes div
+{
+    display: flex;
+}
+
+.checkboxes p
+{
+    line-height: 0;
+}
+
+.checkboxes
+{
+    position: absolute;
+    top: 20%;
+    font-size: 2vh;
+}
+
+p#mdl_up, #grp_up, #msh_up
+{
+    position: absolute;
+    left: 10vh;
 }
