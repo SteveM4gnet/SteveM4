@@ -1,0 +1,262 @@
+<html>
+<link href="https://fonts.googleapis.com/css?family=Comfortaa&display=swap" rel="stylesheet">
+<title>
+MDL Value Generator
+</title>
+<body>
+	<div id = 'conversion_rates'>
+		<pre>
+Conversion rates used:
+ms -> mph: 	val x 2.237
+Kw -> hp:	val x 1.341
+kN -> lb/F:	val x 225
+		</pre>
+	</div>
+<div id = 'stats_input'>
+	<input type = 'number' onchange = 'calcStats()' id = 'input_mph' placeholder = 'mph' >
+	<input type = 'number' onchange = 'calcStats()' id = 'input_hp' placeholder = 'hp' >
+	<input type = 'number' onchange = 'calcStats()' id = 'input_lbf' placeholder = 'lb/f' >
+</div>
+<div id = 'stats_result'>
+	<input type = 'number' disabled value = ''; id = 'result_ms' placeholder = 'm/s'>	
+	<input type = 'number' disabled value = ''; id = 'result_kw' placeholder = 'kw'>
+	<input type = 'number' disabled value = ''; id = 'result_kN' placeholder = 'kN'>
+</div>
+<div id = 'animations_input'>
+	<input type = 'number' onchange = 'calcAnim()' id = 'input_axle' placeholder = 'Axle Height'>
+	<input type = 'number' onchange = 'calcAnim()' id = 'input_rod' placeholder = 'Motion Height'>
+	<select onchange = 'calcAnim()' id= 'anim_Type'>		
+		 <option value='' disabled selected hidden>Animation Type</option>
+		<option value= 'connecting'>Connecting Rod</option>
+		<option value= 'piston'>Piston</option>
+		<option value= 'coupling'>Coupling Rod</option>
+	</select>
+</div>
+<div id = 'animations_result'>
+	<input type = 'text' disabled value = '' id = 'result_connect' placeholder = 'Connecting Rod Animation'>
+	<input type = 'text' disabled value = '' id = 'result_coupling' placeholder = 'Coupling Rod Animation'>
+	<input type = 'text' disabled value = '' id = 'result_piston' placeholder = 'Piston Animation'>
+</div>
+<div id = 'keyframes_result'>
+	<input type = 'text' disabled value = '' id = 'result_interval' placeholder = 'Keyframe intervals (ms)'>
+	<input type = 'text' disabled value = '' id = 'result_maxTime' placeholder = 'Keyframe Maximum Time (ms)'>
+</div>
+<div id = 'keyframes_input'>
+	<input type = 'number' onchange = 'calcAnim()' id = 'input_keyframes' placeholder = 'Keyframe amount'>
+</div>
+<div id = 'code_result'>
+	<textarea id = 'code_stats' readonly></textarea>
+	<textarea id = 'code_animations' readonly></textarea>
+</div>
+</body>
+<script>
+var mph = document.querySelector('#input_mph'),
+	hp = document.querySelector('#input_hp'),
+	lbf = document.querySelector('#input_lbf'),
+	ms = document.querySelector('#result_ms'),
+	kN = document.querySelector('#result_kN'),
+	kw = document.querySelector('#result_kw'),
+	axleHeight = document.querySelector('#input_axle'),
+	motionHeight = document.querySelector('#input_rod'),
+	motionType = document.querySelector('#anim_type'),
+	ConnectingRodAnim = document.querySelector('#result_connect'),
+	CouplingRodAnim = document.querySelector('#result_coupling'),
+	PistonAnim = document.querySelector('#result_piston'),
+	keyframesAmnt = document.querySelector('#input_keyframes'),
+	keyframeInt = document.querySelector('#result_interval'),
+	keyframeMax = document.querySelector('#result_maxTime'),
+	codeStats = document.querySelector('#code_stats'),
+	codeAnimation = document.querySelector('#code_animations');
+
+var drive = 'drive = vehicleutil.';
+	
+function calcStats()
+{
+	ms.value = Math.round((mph.value/2.237)* 100) / 100;
+	kw.value = Math.round((hp.value/1.341)* 100) / 100;
+	kN.value = Math.round((lbf.value/225)* 100) / 100;
+	
+	codeStats.value = 
+	'power = ' + kw.value + ',' + '\n' +
+	'tractiveEffort = ' + kN.value + ',' + '\n' +
+	'\n' +
+	'topSpeed = ' + ms.value + ',';
+}
+
+function calcAnim()
+{
+	if (motionType.value == 'piston')
+		{
+			PistonAnim.value = drive + 'makePistonAnim(vec2.new(0,' + axleHeight.value + '), vec2.new(0,' + motionHeight.value + '), vec2.new(2,' + motionHeight.value + '))';
+		}
+	if (motionType.value == 'coupling')
+		{
+			ConnectingRodAnim.value = drive + 'makeCouplingRodAnim(vec2.new(0,' + axleHeight.value + '), vec2.new(0,' + motionHeight.value + '), vec2.new(2,' + motionHeight.value + '))';
+		}
+	if (motionType.value == 'connecting')
+		{
+			CouplingRodAnim.value = drive + 'makeConnectingRodAnim(vec2.new(0,' + axleHeight.value + '), vec2.new(0,' + motionHeight.value + '), vec2.new(2,' + motionHeight.value + '))';
+		}
+	var totalTime = axleHeight.value*6283;
+	keyframeInt.value = calcKeyframes();
+	keyframeMax.value = Math.round((totalTime)* 100) / 100;
+	function calcKeyframes()
+	{
+		var amnt = (keyframesAmnt.value),
+			interval = totalTime/amnt,
+			list = '0, ';
+			for (var i = 0; i < amnt; i++)
+			{
+				list += Math.round((interval + (interval*i))* 100) / 100 + ', ';
+			}
+		return list;
+	}
+	
+	codeAnimation.value =
+	'animations = {' + '\n' +
+	'\t' + drive + 'makeConnectingRodAnim(vec2.new(0,' + axleHeight.value + '), vec2.new(0,' + motionHeight.value + '), vec2.new(2,' + motionHeight.value + '))' + '\n' +
+	'},' +
+	'\n\n' +
+	'animations = {' + '\n' +
+	'\t' + drive + 'makeCouplingRodAnim(vec2.new(0,' + axleHeight.value + '), vec2.new(0,' + motionHeight.value + '), vec2.new(2,' + motionHeight.value + '))' + '\n' +
+	'},' +
+	'\n\n' +
+	'animations = {' + '\n' +
+	'\t' + drive + 'makePistonAnim(vec2.new(0,' + axleHeight.value + '), vec2.new(0,' + motionHeight.value + '), vec2.new(2,' + motionHeight.value + '))';
+}
+</script>
+<style>
+body, p, input, select
+{
+	font-family: 'Comfortaa', cursive;
+	font-size:3vh;
+}
+
+:disabled
+{
+	font-family:monospace;
+}
+
+body
+{
+	position:absolute;
+	left:5vw;
+	width:90vw;
+	height:100vh;
+	top:0vh;
+	padding:0;
+	margin:0;
+	overflow:hidden;
+}
+
+textarea
+{
+	resize: none;
+}
+
+#stats_input,
+#stats_result,
+#animations_input,
+#animations_result,
+#keyframes_input,
+#keyframes_result
+{
+	position:absolute;
+	width:10%;
+	height: auto;
+	left:0;
+	top:20%;
+}
+
+#stats_input input,
+#stats_result input,
+#animations_input input,
+#animations_input select,
+#animations_result input,
+#keyframes_input input,
+#keyframes_result input
+{
+	position:relative;
+	width:100%;
+	height:5vh;
+	margin:0;
+	padding:0;
+	text-align:center;
+}
+
+input, select
+{
+	border:solid 0.1vh #3d7faf;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+#stats_result
+{
+	left:10%;	
+}
+
+#animations_input
+{
+	top:40vh;
+	width: 20%;
+}
+
+#animations_result
+{
+	top:80%;
+	width:100%;
+}
+
+#animations_result input
+{
+	text-align:left;
+	padding-left:2.5vh;
+}
+
+#keyframes_input
+{
+	top:60vh;
+	width:20%;
+}
+
+#keyframes_input input
+{
+	width:100%;
+}
+
+#keyframes_result
+{
+	top:65vh;
+	width:100%;
+}
+
+#code_result
+{
+	position:absolute;
+	top:20vh;
+	left:22.5%;
+	height:45vh;
+	width: 85%;
+}
+
+#code_result textarea
+{
+	width: 45%;
+	padding:0;
+	margin:0;
+	margin-right:-1vh;
+	height:90%;
+}
+
+#code
+{
+	width:100%;
+	height:100%;
+}
+</style>
+</html>
