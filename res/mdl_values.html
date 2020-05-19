@@ -12,6 +12,7 @@ Kw -> hp:	val x 1.341
 kN -> lb/F:	val x 225
 		</pre>
 	</div>
+<button onclick = 'txt2Lua()' id = 'txt2Lua-button'>Convert text to LUA string</button>
 <div id = 'stats_input'>
 	<input type = 'number' onchange = 'calcStats()' id = 'input_mph' placeholder = 'mph' >
 	<input type = 'number' onchange = 'calcStats()' id = 'input_hp' placeholder = 'hp' >
@@ -45,7 +46,7 @@ kN -> lb/F:	val x 225
 	<input type = 'number' onchange = 'calcAnim()' id = 'input_keyframes' placeholder = 'Keyframe amount'>
 </div>
 <div id = 'code_result'>
-	<textarea id = 'code_stats' readonly></textarea>
+	<textarea id = 'code_stats'></textarea>
 	<textarea id = 'code_animations' readonly></textarea>
 </div>
 </body>
@@ -69,7 +70,20 @@ var mph = document.querySelector('#input_mph'),
 	codeAnimation = document.querySelector('#code_animations');
 
 var drive = 'drive = vehicleutil.';
-	
+
+function txt2Lua()
+{
+	var txt = codeStats.value,
+		lua = '';
+	txt = txt.split('\n');
+	for (var i = 0; i < txt.length; i++)
+	{
+		lua += '"' + txt[i] + '\\n"..' + '\n';
+	}
+	lua += '""';
+	codeStats.value = lua;
+}
+
 function calcStats()
 {
 	ms.value = Math.round((mph.value/2.237)* 100) / 100;
@@ -147,6 +161,16 @@ body
 	padding:0;
 	margin:0;
 	overflow:hidden;
+}
+
+button#txt2Lua-button {
+    position: absolute;
+    top: 18vh;
+    left: 22.5%;
+    width: 38%;
+    background: #ebebe4;
+    border: 0.11vh #3d7faf solid;
+    font-family: comfortaa;
 }
 
 textarea
